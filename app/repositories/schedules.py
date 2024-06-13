@@ -21,8 +21,8 @@ class SchedulesRepository:
         return schedule
 
     @staticmethod
-    async def get(db: AsyncSession, id: int) -> Schedule:
-        res = await db.execute(select(Schedule).where(Schedule.id == id).limit(1))
+    async def get(db: AsyncSession) -> Schedule:
+        res = await db.execute(select(Schedule).order_by(Schedule.id.desc()).limit(1))
         return res.scalar()
 
     @staticmethod

@@ -15,8 +15,8 @@ class SchedulesService:
         return ScheduleGet.model_validate(schedule)
 
     @staticmethod
-    async def get(db: AsyncSession, id: int) -> ScheduleGet:
-        schedule = await SchedulesRepository.get(db, id)
+    async def get(db: AsyncSession) -> ScheduleGet:
+        schedule = await SchedulesRepository.get(db)
         if schedule is None:
             raise HTTPException(404, "Расписание не найдено")
         return ScheduleGet.model_validate(schedule)
