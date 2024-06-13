@@ -19,10 +19,11 @@ async def get_geojson_file(filename: str):
     file_path = os.path.join(config.GEOJSON_DIR, filename)
     if not os.path.exists(file_path) or not file_path.endswith('.json'):
         raise HTTPException(status_code=404, detail="File not found")
-    
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             geojson_content = json.load(f)
         return JSONResponse(content=geojson_content)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+

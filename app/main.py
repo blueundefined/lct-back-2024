@@ -88,6 +88,7 @@ app = FastAPI(
   <details>
     <summary>Слои источников данных</summary>
     <p>
+    
     </p>
     </details>
   <details>
@@ -128,7 +129,7 @@ app.mount(f"{config.BACKEND_PREFIX}/static", StaticFiles(directory="./app/docs")
 async def api_documentation(request: Request):
     return HTMLResponse("""
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <link rel="icon" href="static/favicon.ico">
     <meta charset="utf-8">
