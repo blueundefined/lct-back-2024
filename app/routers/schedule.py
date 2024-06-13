@@ -18,7 +18,7 @@ router = APIRouter(prefix=config.BACKEND_PREFIX)
 @router.get(
     "/schedule",
     response_model=ScheduleGet,
-    response_description="Успешный возврат расписания",
+    response_description="Успешный возврат расписания для автоматизированного проведения работ",
     status_code=status.HTTP_200_OK,
     description="Получить текущие настройки расписания",
     summary="Получение расписания",
@@ -43,21 +43,6 @@ async def create(
     schedules_service: SchedulesService = Depends(),
 ):
     return await schedules_service.create(db=db, model=model)
-
-@router.put(
-    "/schedule",
-    response_model=ScheduleGet,
-    response_description="Расписание успешно изменено",
-    status_code=status.HTTP_200_OK,
-    description="Изменить расписание и вернуть его",
-    summary="Изменение расписания",
-)
-async def update(
-    model: ScheduleCreate,
-    db: AsyncSession = Depends(get_session),
-    schedules_service: SchedulesService = Depends(),
-):
-    return await schedules_service.update(db=db, model=model)
 
 @router.patch(
     "/schedule",

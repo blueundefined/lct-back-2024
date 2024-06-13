@@ -14,6 +14,7 @@ from app.routers.data_source_metas import router as data_source_metas_router
 from app.routers.utils import router as utils_router
 from app.routers.source_layers import router as source_layers_router
 from app.routers.geocode import router as geocode_router
+from app.routers.schedule import router as schedule_router
 
 tags_metadata = [
     {"name": "auth", "description": "Авторизация"},
@@ -169,6 +170,7 @@ app.include_router(data_source_metas_router, tags=["data_source_metas"])
 app.include_router(utils_router, tags=["utils"])
 app.include_router(source_layers_router, tags=["source_layers"])
 app.include_router(geocode_router, tags=["Геокодирование"])
+app.include_router(schedule_router, tags=["Расписание"])
 
 
 print("app.main.py: app created.")
