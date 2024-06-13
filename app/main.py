@@ -15,15 +15,18 @@ from app.routers.utils import router as utils_router
 from app.routers.source_layers import router as source_layers_router
 from app.routers.geocode import router as geocode_router
 from app.routers.schedule import router as schedule_router
+from app.routers.manuals import router as manuals_router
 
 tags_metadata = [
-    {"name": "auth", "description": "Авторизация"},
-    {"name": "users", "description": "Работа с пользователями"},
-    {"name": "data_sources", "description": "Работа с источниками данных"},
-    {"name": "data_source_metas", "description": "Работа с полями источников данных"},
-    {"name": "utils", "description": "Отладка и утилиты"},
-    {"name": "source_layers", "description": "Работа с слоями источников данных"},
+    {"name": "Авторизация", "description": "Авторизация"},
+    {"name": "Пользователи", "description": "Работа с пользователями"},
+    {"name": "Источники данных", "description": "Работа с источниками данных"},
+    {"name": "Поля источников данных", "description": "Работа с полями источников данных"},
+    {"name": "Отладка", "description": "Отладка и утилиты"},
+    {"name": "Исходные слои", "description": "Работа с слоями источников данных"},
     {"name": "Геокодирование", "description": "Геокодирование и реверс-геокодирование"},
+    {"name": "Расписание", "description": "Настройка расписания для автоматизированного проведения работ"},
+    {"name": "Справочники", "description": "Работа со справочниками"}
 ]
 
 app = FastAPI(
@@ -164,14 +167,15 @@ async def api_documentation(request: Request):
   </body>
 </html>""")
 
-app.include_router(auth_router, tags=["auth"])
-app.include_router(users_router, tags=["users"])
-app.include_router(data_sources_router, tags=["data_sources"])
-app.include_router(data_source_metas_router, tags=["data_source_metas"])
-app.include_router(utils_router, tags=["utils"])
-app.include_router(source_layers_router, tags=["source_layers"])
+app.include_router(auth_router, tags=["Авторизация"])
+app.include_router(users_router, tags=["Пользователи"])
+app.include_router(data_sources_router, tags=["Источники данных"])
+app.include_router(data_source_metas_router, tags=["Поля источников данных"])
+app.include_router(utils_router, tags=["Отладка"])
+app.include_router(source_layers_router, tags=["Исходные слои"])
 app.include_router(geocode_router, tags=["Геокодирование"])
 app.include_router(schedule_router, tags=["Расписание"])
+app.include_router(manuals_router, tags=["Справочники"])
 
 
 print("app.main.py: app created.")
