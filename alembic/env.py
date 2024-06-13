@@ -41,9 +41,6 @@ target_metadata = Base.metadata
 def get_url() -> str:
     print(app_config.SQLALCHEMY_DATABASE_URI.unicode_string())
     return app_config.SQLALCHEMY_DATABASE_URI.unicode_string(
-
-    ).replace("admin%40admin.com", "your_username").replace("admin", "your_password").replace(
-        "exilon_leaders", "exilon_leaders_task4"
     )
 
 
