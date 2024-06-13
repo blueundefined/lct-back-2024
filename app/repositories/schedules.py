@@ -22,7 +22,7 @@ class SchedulesRepository:
 
     @staticmethod
     async def get(db: AsyncSession) -> Schedule:
-        res = await db.execute(select(Schedule).order_by(Schedule.id.desc()).limit(1))
+        res = await db.execute(select(Schedule).limit(1))
         return res.scalar()
 
     @staticmethod
