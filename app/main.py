@@ -161,7 +161,11 @@ async def api_documentation(request: Request):
     <div id="container">
       <elements-api
         apiDescriptionUrl="openapi.json"
-        router="hash"
+        router="hash", 
+        layout="responsive",
+        tryItCredentialsPolicy="include",
+        hideExport="true",
+        logo="static/favicon.ico"
       />
     </div>
   </body>
