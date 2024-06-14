@@ -13,7 +13,7 @@ from app.config import config
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
 
-output_dir = "processed_data"
+output_dir = os.path.join('app/processed_data')
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
