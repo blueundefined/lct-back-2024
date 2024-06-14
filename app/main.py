@@ -16,6 +16,7 @@ from app.routers.source_layers import router as source_layers_router
 from app.routers.geocode import router as geocode_router
 from app.routers.schedule import router as schedule_router
 from app.routers.manuals import router as manuals_router
+from app.routers.ai import router as ai_router
 
 tags_metadata = [
     {"name": "Авторизация", "description": "Авторизация"},
@@ -26,7 +27,8 @@ tags_metadata = [
     {"name": "Исходные слои", "description": "Работа с слоями источников данных"},
     {"name": "Геокодирование", "description": "Геокодирование и реверс-геокодирование"},
     {"name": "Расписание", "description": "Настройка расписания для автоматизированного проведения работ"},
-    {"name": "Справочники", "description": "Работа со справочниками"}
+    {"name": "Справочники", "description": "Работа со справочниками"},
+    {"name": "Нейросети", "description": "Работа с нейросетевыми решениями"},
 ]
 
 app = FastAPI(
@@ -180,6 +182,7 @@ app.include_router(source_layers_router, tags=["Исходные слои"])
 app.include_router(geocode_router, tags=["Геокодирование"])
 app.include_router(schedule_router, tags=["Расписание"])
 app.include_router(manuals_router, tags=["Справочники"])
+app.include_router(ai_router, tags=["Нейросети"])
 
 
 print("app.main.py: app created.")
