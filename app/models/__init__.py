@@ -6,3 +6,4 @@ from .schedule import *
 from .geocode import *
 from .utils import *
 from .cadastral_manual import *
+from .shape import *

@@ -867,6 +867,24 @@ files = [
 ]
 
 [[package]]
+name = "geoalchemy2"
+version = "0.15.1"
+description = "Using SQLAlchemy with Spatial Databases"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "GeoAlchemy2-0.15.1-py3-none-any.whl", hash = "sha256:c1083cc3270608c3d5000a5487069ac9e75ac21a8ef2b7ebc29e060a0d4719ec"},
+    {file = "geoalchemy2-0.15.1.tar.gz", hash = "sha256:33df0cd901abf8518ec0985f9201d42cce65887127cf59f40be38cf758a9a6dc"},
+]
+
+[package.dependencies]
+packaging = "*"
+SQLAlchemy = ">=1.4"
+
+[package.extras]
+shapely = ["Shapely (>=1.7)"]
+
+[[package]]
 name = "geopandas"
 version = "0.14.4"
 description = "Geographic pandas extensions"
@@ -3002,4 +3020,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "02f1705ea045b98b2d7ff6d42c7360597fee8ed0028740a9ecf56effa14efd9e"
+content-hash = "26c92512d41e7e4e556f02774a42c644d95934664620eb4a1ca6f5306d4b2f39"

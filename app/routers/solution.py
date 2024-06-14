@@ -1,27 +1,31 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException, APIRouter
+from typing import List
+from fastapi import APIRouter, FastAPI, UploadFile, File, HTTPException, Depends
 from fastapi.responses import JSONResponse, FileResponse
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
 import geopandas as gpd
-import matplotlib.pyplot as plt
 import os
 import io
-from shapely.geometry import Point, Polygon, LineString, MultiPoint, MultiLineString, MultiPolygon
 import fiona
-from typing import List
-import json
-
+from app.database.tables import Shape
 from app.config import config
+from app.database.connection import AsyncSession
+from app.models import ShapeGet, ShapeCreate, ShapePatch
+from app.database.connection import get_session
+from shapely.geometry import Point, Polygon, LineString, MultiPoint, MultiPolygon, MultiLineString
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
 
-output_dir = os.path.join('app/processed_data')
+
+output_dir = "app/processed_data"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
 # In-memory storage for uploaded shapefiles
 uploaded_files = {}
 
-# Function to read and transform shapefile with correction
-def read_and_transform_shapefile_with_correction(file: io.BytesIO, encoding: str, target_crs='EPSG:4326', lat_correction=0.000405-0.000245, lon_correction=-0.001721+0.000245):
+# Функция для чтения и преобразования координат с коррекцией
+def read_and_transform_shapefile_with_correction(file: io.BytesIO, encoding: str, target_crs='EPSG:4326', lat_correction=0.000405, lon_correction=-0.001721):
     with fiona.BytesCollection(file.read()) as src:
         gdf = gpd.GeoDataFrame.from_features(src, crs=src.crs)
         if gdf.crs is None:
@@ -52,7 +56,7 @@ def read_and_transform_shapefile_with_correction(file: io.BytesIO, encoding: str
         gdf['geometry'] = gdf['geometry'].apply(lambda geom: correct_coords(geom, lon_correction, lat_correction))
     return gdf
 
-# Function to subtract intersections
+# Функция для вычитания пересечений
 def subtract_intersections(base_gdf, intersecting_gdfs):
     remaining_gdf = base_gdf.copy()
     for gdf in intersecting_gdfs:
@@ -62,14 +66,27 @@ def subtract_intersections(base_gdf, intersecting_gdfs):
             print(f"Ошибка при вычитании слоя: {e}")
     return remaining_gdf
 
-@router.post("/solution/upload_shapefile", response_description="Upload a shapefile")
+# Функция для сохранения контуров в базу данных с версионированностью
+def save_shapes_to_db(gdf, version, db: Session):
+    for _, row in gdf.iterrows():
+        shape = ShapeCreate(
+            version=version,
+            geometry=row['geometry'].wkt,
+            comment=''
+        )
+        db.add(shape)
+    db.commit()
+
+# Маршрут для загрузки shapefile
+@router.post("/upload_shapefile", response_description="Upload a shapefile")
 async def upload_shapefile(file: UploadFile = File(...)):
     content = await file.read()
     uploaded_files[file.filename] = io.BytesIO(content)
     return {"filename": file.filename}
 
-@router.get("/solution/process_geojson", response_description="Process shapefiles and return resulting GeoJSON file")
-async def process_geojson():
+# Маршрут для обработки shapefiles и возврата результирующего GeoJSON файла
+@router.get("/process_geojson", response_description="Process shapefiles and return resulting GeoJSON file")
+async def process_geojson(db: Session = Depends(get_session)):
     if 'base_layer.shp' not in uploaded_files:
         raise HTTPException(status_code=400, detail="Base layer shapefile not uploaded.")
     
@@ -92,6 +109,9 @@ async def process_geojson():
     geoms = [geom] if geom.geom_type == 'Polygon' else list(geom.geoms)
 
     gdf_parts = gpd.GeoDataFrame(geometry=geoms, crs=gdf_remain.crs)
+    version = db.query(Shape).count() // len(geoms) + 1
+    save_shapes_to_db(gdf_parts, version, db)
+
     geojson_path = os.path.join(output_dir, 'small_parts.geojson')
     gdf_parts.to_file(geojson_path, driver='GeoJSON')
 
@@ -103,7 +123,45 @@ async def process_geojson():
 
     return JSONResponse(content={"filters_used": filters_used, "geojson_file": geojson_path})
 
-@router.get("/solution/processed_geojson", response_description="Download processed GeoJSON file")
-async def processed_geojson():
-    return FileResponse(os.path.join(output_dir, 'small_parts.geojson'))
+# Маршрут для получения всех контуров определенной версии
+@router.get("/shapes/{version}", response_model=List[ShapeGet])
+def get_shapes(version: int, db: Session = Depends(get_session)):
+    shapes = db.query(Shape).filter(Shape.version == version).all()
+    if not shapes:
+        raise HTTPException(status_code=404, detail="Shapes not found for this version")
+    return shapes
 
+# Модель для обновления комментария
+class CommentUpdate(BaseModel):
+    comment: str
+
+# Маршрут для добавления комментария к контуру
+@router.patch("/shapes/{shape_id}/comment")
+def update_shape_comment(shape_id: int, comment_update: CommentUpdate, db: Session = Depends(get_session)):
+    shape = db.query(Shape).filter(Shape.id == shape_id).first()
+    if not shape:
+        raise HTTPException(status_code=404, detail="Shape not found")
+    shape.comment = comment_update.comment
+    db.commit()
+    return shape
+
+# Маршрут для получения существующего файла small_parts.geojson
+@router.get("/download_geojson", response_description="Download the existing small_parts.geojson file")
+async def download_geojson():
+    geojson_path = os.path.join(output_dir, 'small_parts.geojson')
+    if not os.path.exists(geojson_path):
+        raise HTTPException(status_code=404, detail="GeoJSON file not found")
+    return FileResponse(geojson_path, media_type='application/json', filename='small_parts.geojson')
+
+# Маршрут для выгрузки существующего файла small_parts.geojson в базу данных
+@router.post("/upload_geojson_to_db", response_description="Upload existing small_parts.geojson file to the database")
+async def upload_geojson_to_db(db: Session = Depends(get_session)):
+    geojson_path = os.path.join(output_dir, 'small_parts.geojson')
+    if not os.path.exists(geojson_path):
+        raise HTTPException(status_code=404, detail="GeoJSON file not found")
+    
+    gdf = gpd.read_file(geojson_path)
+    version = db.query(Shape).count() // len(gdf) + 1
+    save_shapes_to_db(gdf, version, db)
+
+    return JSONResponse(content={"detail": "GeoJSON file uploaded to the database", "version": version})
