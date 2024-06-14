@@ -23,8 +23,9 @@ router = APIRouter(prefix=config.BACKEND_PREFIX)
     summary="Получение данных по кадастровому кварталу",
 )
 async def get(
+    cadastral_quarter_number: str,
     db: AsyncSession = Depends(get_session),
-    cadastral_quarter_number: str = Field(..., description="Номер кадастрового квартала"),
+    
 ):
     return await CadastralManualsService.get(db=db, cadastral_quarter_number=cadastral_quarter_number)
 
