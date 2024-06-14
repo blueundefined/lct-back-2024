@@ -23,6 +23,7 @@ class CadastralManualsService:
     @staticmethod
     async def get(db: AsyncSession, cadastral_quarter_number: str) -> CadastralManualGet:
         cadastral_manual = await CadastralManualsRepository.get(db, cadastral_quarter_number)
+        print(cadastral_manual)
         if cadastral_manual is None:
             raise HTTPException(404, "Мануал кадастрового квартала не найден")
         return CadastralManualGet.model_validate(cadastral_manual)
