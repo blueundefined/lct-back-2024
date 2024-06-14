@@ -21,8 +21,8 @@ class CadastralManualsService:
         return [CadastralManualGet.model_validate(cm) for cm in cadastral_manuals]
 
     @staticmethod
-    async def get(db: AsyncSession, id: int) -> CadastralManualGet:
-        cadastral_manual = await CadastralManualsRepository.get(db, id)
+    async def get(db: AsyncSession, cadastral_quarter_number: str) -> CadastralManualGet:
+        cadastral_manual = await CadastralManualsRepository.get(db, cadastral_quarter_number)
         if cadastral_manual is None:
             raise HTTPException(404, "Мануал кадастрового квартала не найден")
         return CadastralManualGet.model_validate(cadastral_manual)

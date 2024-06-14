@@ -25,8 +25,8 @@ class CadastralManualsRepository:
         return res.scalars().unique().all()
     
     @staticmethod
-    async def get(db: AsyncSession, id: int) -> CadastralManual:
-        res = await db.execute(select(CadastralManual).where(CadastralManual.id == id).limit(1))
+    async def get(db: AsyncSession, cadastral_quarter_number: str) -> CadastralManual:
+        res = await db.execute(select(CadastralManual).where(CadastralManual.cadastral_quarter_number == cadastral_quarter_number))
         return res.scalar()
 
     @staticmethod
