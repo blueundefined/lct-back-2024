@@ -7,15 +7,16 @@ from app.config import config
 from app.database.connection import get_session
 from pydantic import UUID4, BaseModel, EmailStr, Field
 from app.models.vri import VRIGet
+from app.models.cadastral_manual import CadastralManualGet
 
 from app.services import CadastralManualsService
 
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
 
-@router.get( # GET cadastral table by cadastral_quarter_number or id 
+@router.get(
     "/cadastral/{cadastral_quarter_number}",
-    response_model=VRIGet,
+    response_model=CadastralManualGet,
     response_description="Успешный возврат данных по кадастровому кварталу",
     status_code=status.HTTP_200_OK,
     description="Получить данные по кадастровому кварталу",
@@ -27,9 +28,9 @@ async def get(
 ):
     return await CadastralManualsService.get(db=db, cadastral_quarter_number=cadastral_quarter_number)
 
-@router.get( # GET all cadastral tables
+@router.get( 
     "/cadastral",
-    response_model=list[VRIGet],
+    response_model=list[CadastralManualGet],
     response_description="Успешный возврат списка данных по кадастровым кварталам",
     status_code=status.HTTP_200_OK,
     description="Получить список данных по кадастровым кварталам",
