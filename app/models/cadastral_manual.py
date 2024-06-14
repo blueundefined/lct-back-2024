@@ -1,7 +1,20 @@
-from datetime import datetime
-from typing import Optional, List
-
 from pydantic import BaseModel, Field
+from typing import Optional
+
+"""
+   cadastral_quarter_number = Column(String, nullable=False)
+    land_for_high_rise_residential_buildings = Column(Float, nullable=True)
+    land_for_low_rise_residential_buildings = Column(Float, nullable=True)
+    land_for_garages_parking = Column(Float, nullable=True)
+    land_for_commerce_recreation = Column(Float, nullable=True)
+    land_for_temporary_residence = Column(Float, nullable=True)
+    land_for_office_buildings = Column(Float, nullable=True)
+    land_for_industrial_purposes = Column(Float, nullable=True)
+    land_for_sanatoriums_tourism = Column(Float, nullable=True)
+    land_for_social_infrastructure = Column(Float, nullable=True)
+    land_for_ports_stations = Column(Float, nullable=True)
+    land_for_gardening = Column(Float, nullable=True)
+"""
 
 class CadastralManualBase(BaseModel):
     cadastral_quarter_number: str = Field(
@@ -9,57 +22,57 @@ class CadastralManualBase(BaseModel):
         alias="cadastral_quarter_number", 
         description="Номер кадастрового квартала"
     )
-    high_rise_residential: Optional[float] = Field(
+    land_for_high_rise_residential_buildings: Optional[float] = Field(
         None, 
         alias="high_rise_residential", 
         description="Земельные участки, предназначенные для размещения объектов многоэтажной жилой застройки"
     )
-    low_rise_residential: Optional[float] = Field(
+    land_for_low_rise_residential_buildings: Optional[float] = Field(
         None, 
         alias="low_rise_residential", 
         description="Земельные участки, предназначенные для размещения малоэтажной жилой застройки, включая индивидуальную жилую застройку"
     )
-    garages_parking: Optional[float] = Field(
+    land_for_garages_parking: Optional[float] = Field(
         None, 
         alias="garages_parking", 
         description="Земельные участки, предназначенные для размещения гаражей, машино-мест, автостоянок"
     )
-    commerce_recreation: Optional[float] = Field(
+    land_for_commerce_recreation: Optional[float] = Field(
         None, 
         alias="commerce_recreation", 
         description="Земельные участки, предназначенные для размещения объектов торговли, общественного питания, бытового обслуживания, сервиса, отдыха и развлечений, включая объекты многофункционального назначения"
     )
-    temporary_residence: Optional[float] = Field(
+    land_for_temporary_residence: Optional[float] = Field(
         None, 
         alias="temporary_residence", 
         description="Земельные участки под объектами, предназначенными для временного проживания"
     )
-    office_buildings: Optional[float] = Field(
+    land_for_office_buildings: Optional[float] = Field(
         None, 
         alias="office_buildings", 
         description="Земельные участки, предназначенные для размещения административных и офисных зданий"
     )
-    industrial_purposes: Optional[float] = Field(
+    land_for_industrial_purposes: Optional[float] = Field(
         None, 
         alias="industrial_purposes", 
         description="Земельные участки производственного назначения"
     )
-    sanatoriums_tourism: Optional[float] = Field(
+    land_for_sanatoriums_tourism: Optional[float] = Field(
         None, 
         alias="sanatoriums_tourism", 
         description="Земельные участки, предназначенные для размещения санаториев и объектов туристического назначения"
     )
-    social_infrastructure: Optional[float] = Field(
+    land_for_social_infrastructure: Optional[float] = Field(
         None, 
         alias="social_infrastructure", 
         description="Земельные участки, предназначенные для размещения объектов социальной инфраструктуры"
     )
-    ports_stations: Optional[float] = Field(
+    land_for_ports_stations: Optional[float] = Field(
         None, 
         alias="ports_stations", 
         description="Земельные участки, предназначенные для размещения объектов портов, вокзалов, станций"
     )
-    gardening: Optional[float] = Field(
+    land_for_gardening: Optional[float] = Field(
         None, 
         alias="gardening", 
         description="Земельные участки, предназначенные для размещения объектов садоводства и огородничества"
