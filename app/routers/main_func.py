@@ -421,7 +421,7 @@ class MKDColumnName(str, Enum):
     summary="Земельные участки",
     # responses={},
         )
-async def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColumnName.ownershi8):
+def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColumnName.ownershi8):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.ZU.value}/{layer.value}", encode='UTF8')
@@ -448,7 +448,7 @@ async def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = Z
     summary="Объекты капитального строительства",
     # responses={},
         )
-async def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSColumnName.hasbti):
+def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSColumnName.hasbti):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.OKS.value}/{layer.value}", encode='UTF8')
@@ -475,7 +475,7 @@ async def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName 
     summary="Зоны охраняемых уникальных историко-культурных территорий",
     # responses={},
         )
-async def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName = ZOUITColumnName.VID_ZOUIT):
+def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName = ZOUITColumnName.VID_ZOUIT):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.ZOUIT.value}/{layer.value}", encode='UTF8')
@@ -502,7 +502,7 @@ async def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColum
     summary="Зоны регулирования застройки и застройки",
     # responses={},
         )
-async def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: SpritzonesColumnName = SpritzonesColumnName.LineCode):
+def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: SpritzonesColumnName = SpritzonesColumnName.LineCode):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.spritzones.value}/{layer.value}", encode='UTF8')
@@ -529,7 +529,7 @@ async def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: 
     summary="Дороги",
     # responses={},
         )
-async def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROADSColumnName = YDC_ROADSColumnName.VID_ROAD):
+def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROADSColumnName = YDC_ROADSColumnName.VID_ROAD):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.YDC_ROADS.value}/{layer.value}")
@@ -556,7 +556,7 @@ async def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YD
     summary="Стартовые площадки реновации",
     # responses={},
         )
-async def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, column: RenovationSitesColumnName = RenovationSitesColumnName.vysota):
+def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, column: RenovationSitesColumnName = RenovationSitesColumnName.vysota):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.renovation_sites.value}/{layer.value}", encode='UTF8')
@@ -583,7 +583,7 @@ async def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sit
     summary="ПЗЗ (территориальные зоны)",
     # responses={},
         )
-async def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_ZONESColumnName = PPZ_ZONESColumnName.TYPE):
+def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_ZONESColumnName = PPZ_ZONESColumnName.TYPE):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}", encode='UTF8')
@@ -610,7 +610,7 @@ async def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column
     summary="ПЗЗ (территориальные подзоны)",
     # responses={},
         )
-async def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column: PPZ_PODZONESColumnName = PPZ_PODZONESColumnName.PLOTNOST):
+def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column: PPZ_PODZONESColumnName = PPZ_PODZONESColumnName.PLOTNOST):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}", encode='UTF8')
@@ -637,7 +637,7 @@ async def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, 
     summary="Капитальный ремонт территории",
     # responses={},
         )
-async def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTColumnName.type_krt):
+def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTColumnName.type_krt):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.KRT.value}/{layer.value}", encode='UTF8')
@@ -664,7 +664,7 @@ async def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName 
     summary="Округа",
     # responses={},
         )
-async def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: DistrictsColumnName = DistrictsColumnName.NAME):
+def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: DistrictsColumnName = DistrictsColumnName.NAME):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.DISTRICTS.value}/{layer.value}")
@@ -691,7 +691,7 @@ async def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: Di
     summary="Районы",
     # responses={},
         )
-async def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnName = RegionColumnName.NAME):
+def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnName = RegionColumnName.NAME):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.region.value}/{layer.value}")
@@ -718,7 +718,7 @@ async def visualize_region(layer: LayerName = LayerName.REGION, column: RegionCo
     summary="Участки межевания жилых кварталов",
     # responses={},
         )
-async def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnName = SurveyColumnName.KLASS):
+def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnName = SurveyColumnName.KLASS):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.SURVEY.value}/{layer.value}")
@@ -745,7 +745,7 @@ async def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyCo
     summary="Объекты охраняемой зоны территории",
     # responses={},
         )
-async def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = OOZTColumnName.status):
+def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = OOZTColumnName.status):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.OOZT.value}/{layer.value}", encode='UTF8')
@@ -772,7 +772,7 @@ async def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnNa
     summary="Кадастровое деление",
     # responses={},
         )
-async def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: CadastralColumnName = CadastralColumnName.cadastra1):
+def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: CadastralColumnName = CadastralColumnName.cadastra1):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.Cadastral.value}/{layer.value}")
@@ -799,7 +799,7 @@ async def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: Ca
     summary="Многоквартирные дома",
     # responses={},
         )
-async def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDColumnName.hasbti):
+def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDColumnName.hasbti):
     try:
         # layer folder + layer name
         gdf = read_shapefile(f"{LayerFolder.MKD.value}/{layer.value}", encode='UTF8')
@@ -818,11 +818,10 @@ async def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName 
     return geojson
 
 @lru_cache
-async def read_shapefile(file, encode='cp1251'):
+def read_shapefile(file, encode='cp1251'):
     with fiona.open(os.path.join(data_dir, file), encoding=encode) as src:
         gdf = gpd.GeoDataFrame.from_features(src, crs=src.crs)
         return gdf
-    
     
 def transform_geometry(transformer, target_crs, geom):
     if isinstance(geom, Point):
