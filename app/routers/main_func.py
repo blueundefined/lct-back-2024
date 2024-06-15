@@ -7,6 +7,8 @@ from starlette import status
 from app.config import config
 from app.database.connection import get_session
 
+from shapely.geometry import Point, Polygon, LineString, MultiPoint, MultiLineString, MultiPolygon
+
 from functools import lru_cache
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
@@ -1106,20 +1108,41 @@ def read_shapefile(file, encode='cp1251'):
         gdf = gpd.GeoDataFrame.from_features(src, crs=src.crs)
         return gdf
     
-@lru_cache()
+def transform_geometry(transformer, target_crs, geom):
+    if isinstance(geom, Point):
+        return transform(transformer, target_crs, geom.x, geom.y)
+    elif isinstance(geom, LineString):
+        transformed_coords = [transform(transformer, target_crs, *point) for point in geom.coords]
+        return LineString(transformed_coords)
+    elif isinstance(geom, Polygon):
+        exterior = [transform(transformer, target_crs, *coord) for coord in geom.exterior.coords]
+        interiors = [[transform(transformer, target_crs, *coord) for coord in interior.coords] for interior in geom.interiors]
+        return Polygon(exterior, interiors)
+    elif isinstance(geom, MultiPoint):
+        return MultiPoint([transform(transformer, target_crs, point.x, point.y) for point in geom.geoms])
+    elif isinstance(geom, MultiLineString):
+        return MultiLineString([LineString([transform(transformer, target_crs, *point) for point in line.coords]) for line in geom.geoms])
+    elif isinstance(geom, MultiPolygon):
+        return MultiPolygon([Polygon([transform(transformer, target_crs, *coord) for coord in polygon.exterior.coords],
+                                     [[transform(transformer, target_crs, *coord) for coord in interior.coords] for interior in polygon.interiors])
+                            for polygon in geom.geoms])
+    else:
+        raise ValueError(f"Unsupported geometry type: {type(geom)}")
+
+@lru_cache
 def read_shapefile_trans(file, encode='cp1251'):
     with fiona.open(os.path.join(data_dir, file), encoding=encode) as src:
         # Get the source CRS and create a transformer to WGS-84
         src_crs = src.crs
-        transformer = Proj(src_crs, projparams='+proj=tmerc +lat_0=55.66666666667 +lon_0=37.5 +k=1 +x_0=12 +y_0=14 +ellps=bessel +towgs84=316.151,78.924,589.65,-1.57273,2.69209,2.34693,8.4507 +units=m +no_defs')
+        transformer = Proj(projparams='+proj=tmerc +lat_0=55.667 +lon_0=37.4998 +k=1 +x_0=-19.1 +y_0=4.9 +ellps=krass +towgs84=23.92,-141.27,-80.9,-0,0.35,0.82,-0.12 +units=m +no_defs')
         target_crs = Proj(init='epsg:4326')  # WGS-84 CRS
-        
+
         # Read the shapefile into a GeoDataFrame
         gdf = gpd.GeoDataFrame.from_features(src, crs=src_crs)
-        
+
         # Transform geometries to WGS-84
-        gdf['geometry'] = gdf['geometry'].apply(lambda geom: transform(transformer, target_crs, geom))
-        
+        gdf['geometry'] = gdf['geometry'].apply(lambda geom: transform_geometry(transformer, target_crs, geom))
+
         return gdf
 
 def remove_empty_and_zero_columns(gdf):
@@ -1144,3 +1167,20 @@ def gdf_to_geojson(gdf) -> FeatureCollection:
         )
         features.append(feature)
     return FeatureCollection(features=features)
+
+def load_shapefiles():
+    # load all shapefiles into memory to speed up the visualization and avoid reading the files each time
+    for layer, folder in LayerFolder.__members__.items():
+        for file in os.listdir(os.path.join(data_dir, folder.value)):
+            if file.endswith('.shp'):
+                try:
+                    gdf = read_shapefile_trans(f"{folder.value}/{file}")
+                except Exception as e:
+                    print(f"Error reading the shapefile {file}: {str(e)}")
+                    continue
+        
+
+
+
+# load all shapefiles into memory to speed up the visualization and avoid reading the files each time
+load_shapefiles()
