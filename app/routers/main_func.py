@@ -254,306 +254,6 @@ class LayerFolder(str, Enum):
     Cadastral = "_14_Кадастровое деление"
     MKD = "_15_МКД"
 
-"""
-zу = read_shapefile('_1_ЗУ/ЗУ.shp', encode='UTF8')
- 0   geometry    113759 non-null  geometry
- 1   cadastra2   113759 non-null  object  
- 2   address     113759 non-null  object  
- 3   hasvalid5   113759 non-null  object  
- 4   hascadas6   113759 non-null  object  
- 5   isdraft     113759 non-null  object  
- 6   ownershi8   113759 non-null  float64 
- 7   is_stroy    113759 non-null  object  
- 8   is_nonca20  113759 non-null  float64 
- 9   Area        113759 non-null  float64 
-
-ocs = read_shapefile('_2_ОКС/ОКС.shp', encode='UTF8')
-Data columns (total 10 columns):
- #   Column      Non-Null Count   Dtype   
----  ------      --------------   -----   
- 0   geometry    100627 non-null  geometry
- 1   unom        100627 non-null  float64 
- 2   address     100627 non-null  object  
- 3   cadastra3   100627 non-null  object  
- 4   hascadas4   100627 non-null  object  
- 5   hasbti      100627 non-null  object  
- 6   hasownrf    100627 non-null  object  
- 7   hasownmo8   100627 non-null  object  
- 8   hasownot9   100627 non-null  object  
- 9   shape_area  100627 non-null  float64 
-
-zouit = read_shapefile('_3_ЗОУИТ/ZOUIT.shp', encode='UTF8')
-0   geometry   2848 non-null   geometry
- 1   CAD_NUM    673 non-null    object  
- 2   OKRUG      2663 non-null   object  
- 3   RAION_POS  2381 non-null   object  
- 4   VID_ZOUIT  2842 non-null   object  
- 5   TYPE_ZONE  2831 non-null   object  
- 6   NAME       1277 non-null   object  
- 7   OGRAN      945 non-null    object  
- 8   DOC        2054 non-null   object  
- 9   Area       2848 non-null   float64 
-
-spritzones = read_shapefile('_4_СПРИТ/spritzones_2024_04_18_12_16_48.shp', encode='UTF8')
- #   Column    Non-Null Count  Dtype   
----  ------    --------------  -----   
- 0   geometry  10285 non-null  geometry
- 1   LineCode  10285 non-null  object  
- 2   Name      3150 non-null   object  
- 3   Doc       3150 non-null   object  
- 4   Comment   2790 non-null   object  
- 5   Area      10285 non-null  float64 
-
-ydc_roads = read_shapefile('_5_УДС/УДС_дороги.shp')
-Data columns (total 7 columns):
- #   Column      Non-Null Count  Dtype   
----  ------      --------------  -----   
- 0   geometry    6578 non-null   geometry
- 1   NAME_OBJ    6578 non-null   object  
- 2   NAME_STR    2785 non-null   object  
- 3   VID_ROAD    467 non-null    object  
- 4   EXT_NAME    526 non-null    object  
- 5   SHAPE_Leng  6578 non-null   float64 
- 6   SHAPE_Area  6578 non-null   float64
-
-renovation_sites = read_shapefile('_6_Реновация стартовые площадки/Стартовые площадки реновации.shp', encode='UTF8')
-Data columns (total 14 columns):
- #   Column      Non-Null Count  Dtype   
----  ------      --------------  -----   
- 0   geometry    129 non-null    geometry
- 1   okrug       129 non-null    object  
- 2   rayon       129 non-null    object  
- 3   address     129 non-null    object  
- 4   area        129 non-null    object  
- 5   prim        128 non-null    object  
- 6   plotnost    129 non-null    object  
- 7   vysota      129 non-null    object  
- 8   spp         129 non-null    object  
- 9   total_area  129 non-null    object  
- 10  flat_area   129 non-null    object  
- 11  osnovanie   122 non-null    object  
- 12  agr         69 non-null     object  
- 13  objectid    129 non-null    object  
-
-ppz_zones_new = read_shapefile('_7_ПЗЗ (территориальные зоны)/TZ_new.shp', encode='UTF8')
-Data columns (total 8 columns):
- #   Column    Non-Null Count  Dtype   
----  ------    --------------  -----   
- 0   geometry  2608 non-null   geometry
- 1   ZONE_NUM  2608 non-null   object  
- 2   NUM_PP    2608 non-null   object  
- 3   DOC_DATE  2608 non-null   object  
- 4   TYPE      1374 non-null   object  
- 5   INDEX_    1385 non-null   object  
- 6   VRI_540   2607 non-null   object  
- 7   Area      2608 non-null   float64 
-
-ppz_zones_old = read_shapefile('_7_ПЗЗ (территориальные зоны)/TZ_old.shp', encode='UTF8')
-Data columns (total 8 columns):
- #   Column    Non-Null Count  Dtype   
----  ------    --------------  -----   
- 0   geometry  7654 non-null   geometry
- 1   ZONE_NUM  7654 non-null   object  
- 2   NUM_PP    7534 non-null   object  
- 3   DOC_DATE  7648 non-null   object  
- 4   TYPE      3896 non-null   object  
- 5   INDEX_    401 non-null    object  
- 6   VRI_540   7532 non-null   object  
- 7   Area      7654 non-null   float64 
-
-ppz_podzones_new = read_shapefile('_8_ПЗЗ (территориальные подзоны)/TPZ_new.shp', encode='UTF8')
-Data columns (total 9 columns):
- #   Column      Non-Null Count  Dtype   
----  ------      --------------  -----   
- 0   geometry    4397 non-null   geometry
- 1   PODZONE_NU  4397 non-null   object  
- 2   NUM_PP      4397 non-null   object  
- 3   DOC_DATE    4396 non-null   object  
- 4   TYPE        2566 non-null   object  
- 5   PLOTNOST    3366 non-null   object  
- 6   VYSOTA      3366 non-null   object  
- 7   PROCZASTRO  3366 non-null   object  
- 8   Area        4397 non-null   float64 
-
-ppz_podzones_old = read_shapefile('_8_ПЗЗ (территориальные подзоны)/TPZ_old.shp', encode='UTF8')
-Data columns (total 9 columns):
- #   Column      Non-Null Count  Dtype   
----  ------      --------------  -----   
- 0   geometry    8803 non-null   geometry
- 1   PLOTNOST    7737 non-null   object  
- 2   VYSOTA      7725 non-null   object  
- 3   PROCZASTRO  7723 non-null   object  
- 4   PODZONE_NU  8803 non-null   object  
- 5   NUM_PP      8673 non-null   object  
- 6   DOC_DATE    8795 non-null   object  
- 7   TYPE        4638 non-null   object  
- 8   Area        8803 non-null   float64 
-
-krt = read_shapefile('_9_КРТ/КРТ.shp', encode='UTF8')
-Data columns (total 4 columns):
- #   Column    Non-Null Count  Dtype   
----  ------    --------------  -----   
- 0   geometry  237 non-null    geometry
- 1   name      237 non-null    object  
- 2   area_krt  237 non-null    float64 
- 3   type_krt  237 non-null    object  
-
-districts = read_shapefile('_10_Округ, район/округ.shp')
-Data columns (total 7 columns):
- #   Column      Non-Null Count  Dtype   
----  ------      --------------  -----   
- 0   geometry    3 non-null      geometry
- 1   OBJECTID    3 non-null      int64   
- 2   NAME        3 non-null      object  
- 3   LABEL       3 non-null      object  
- 4   TORZID      3 non-null      float64 
- 5   SHAPE_AREA  3 non-null      float64 
- 6   SHAPE_LEN   3 non-null      float64 
-
-survey = read_shapefile('_11_Участки межевания жилых кварталов/участки_межевания.shp')
-Data columns (total 10 columns):
- #   Column      Non-Null Count  Dtype   
----  ------      --------------  -----   
- 0   geometry    24572 non-null  geometry
- 1   NUMBERAREA  24572 non-null  int64   
- 2   DESCR       24572 non-null  object  
- 3   KLASS       15109 non-null  object  
- 4   FUNC_USE    24343 non-null  object  
- 5   N_KVAR      24116 non-null  object  
- 6   N_PARC      24423 non-null  object  
- 7   YEAR        24500 non-null  object  
- 8   AREA        24572 non-null  float64 
- 9   SHAPE_AREA  24572 non-null  float64
-
-oozt = read_shapefile('_12_ООЗТ/ООЗТ.shp', encode='UTF8')
-Data columns (total 7 columns):
- #   Column    Non-Null Count  Dtype   
----  ------    --------------  -----   
- 0   geometry  76 non-null     geometry
- 1   objectid  76 non-null     object  
- 2   status    76 non-null     object  
- 3   zoneid    76 non-null     object  
- 4   docnum    76 non-null     object  
- 5   docdate   76 non-null     object  
- 6   doclist   76 non-null     object 
-
-cadastral = read_shapefile('_14_Кадастровое деление/Кадастровое деление.shp')
-Data columns (total 3 columns):
- #   Column     Non-Null Count  Dtype   
----  ------     --------------  -----   
- 0   geometry   869 non-null    geometry
- 1   cadastra1  869 non-null    object  
- 2   objectid   869 non-null    object
-
-mkd = read_shapefile('_15_МКД/МКД.shp', encode='UTF8')
----  ------      --------------  -----   
- 0   geometry    8212 non-null   geometry
- 1   unom        7884 non-null   float64 
- 2   address     8212 non-null   object  
- 3   cadastra3   8212 non-null   object  
- 4   hascadas4   8212 non-null   object  
- 5   hasbti      8212 non-null   object  
- 6   hascontr6   8015 non-null   float64 
- 7   hasownrf    8212 non-null   object  
- 8   hasownmo8   8212 non-null   object  
- 9   hasownot9   8212 non-null   object  
- 10  cadastra10  8212 non-null   object  
- 11  mgsntype    8212 non-null   object  
- 12  hasmgsn     8212 non-null   object  
- 13  cadastra13  8212 non-null   object  
- 14  btitype     8212 non-null   object  
- 15  objectid    8212 non-null   object  
- 16  mkd_flag    132 non-null    float64 
- 17  moddate     8212 non-null   object 
-
-##13 ППТ
-
-# Загрузка основных данных для PPT_ALL.shp
-ppt_all = read_shapefile('_13_ППТ/PPT_ALL.shp')
-# get_head(ppt_all)
-# get_info(ppt_all)
-
-ppt_all = remove_empty_and_zero_columns(ppt_all)
-get_head(ppt_all)
-get_info(ppt_all)
-
-# Загрузка основных данных для TPU_RV_METRO_Polygon.shp
-tpu_rv_metro_polygon = read_shapefile('_13_ППТ/TPU_RV_METRO_Polygon.shp')
-# get_head(tpu_rv_metro_polygon)
-# get_info(tpu_rv_metro_polygon)
-
-tpu_rv_metro_polygon = remove_empty_and_zero_columns(tpu_rv_metro_polygon)
-get_head(tpu_rv_metro_polygon)
-get_info(tpu_rv_metro_polygon)
-
-# Загрузка основных данных для PPT_UDS.shp
-ppt_uds = read_shapefile('_13_ППТ/PPT_UDS.shp')
-# get_head(ppt_uds)
-# get_info(ppt_uds)
-
-ppt_uds = remove_empty_and_zero_columns(ppt_uds)
-get_head(ppt_uds)
-get_info(ppt_uds)
-
-# Загрузка основных данных для PP_GAZ.shp
-pp_gaz = read_shapefile('_13_ППТ/PP_GAZ.shp')
-# get_head(pp_gaz)
-# get_info(pp_gaz)
-
-pp_gaz = remove_empty_and_zero_columns(pp_gaz)
-get_head(pp_gaz)
-get_info(pp_gaz)
-
-# Загрузка основных данных для PP_METRO_ALL.shp
-pp_metro_all = read_shapefile('_13_ППТ/PP_METRO_ALL.shp')
-# get_head(pp_metro_all)
-# get_info(pp_metro_all)
-
-pp_metro_all = remove_empty_and_zero_columns(pp_metro_all)
-get_head(pp_metro_all)
-get_info(pp_metro_all)
-
-# Загрузка основных данных для kvartal_region.shp
-kvartal_region = read_shapefile('_13_ППТ/kvartal_region.shp')
-# get_head(kvartal_region)
-# get_info(kvartal_region)
-
-kvartal_region = remove_empty_and_zero_columns(kvartal_region)
-get_head(kvartal_region)
-get_info(kvartal_region)
-
-для ППТ схема одинаковая: 
-Data columns (total 26 columns):
- #   Column      Non-Null Count  Dtype   
----  ------      --------------  -----   
- 0   geometry    75 non-null     geometry
- 1   REG_NUM     75 non-null     object  
- 2   VID_PPT     75 non-null     object  
- 3   NAME        75 non-null     object  
- 4   VID_DOC_RA  72 non-null     object  
- 5   NUM_DOC_RA  72 non-null     object  
- 6   DATA_DOC_R  72 non-null     object  
- 7   ZAKAZCHIK   75 non-null     object  
- 8   ISPOLNITEL  48 non-null     object  
- 9   ISTOCH_FIN  75 non-null     object  
- 10  OTVETST_MK  75 non-null     object  
- 11  NUM_KONTRA  12 non-null     object  
- 12  DATA_KONTR  12 non-null     object  
- 13  VID_DOC_UT  44 non-null     object  
- 14  NUM_DOC_UT  44 non-null     object  
- 15  DATA_DOC_U  44 non-null     object  
- 16  PRIOSTANOV  3 non-null      object  
- 17  ZAVERSHENI  23 non-null     object  
- 18  OTMENA      1 non-null      object  
- 19  STATUS      75 non-null     object  
- 20  GRUP1       38 non-null     object  
- 21  GRUP2       72 non-null     object  
- 22  US_PPT      74 non-null     object  
- 23  SPPGNS_OBS  2 non-null      object  
- 24  SPPGNS_JIL  1 non-null      object  
- 25  Shape_Area  75 non-null     float64 
-"""
-
 class ZUColumnName(str, Enum):
     geometry = "geometry"
     cadastra2 = "cadastra2"
@@ -724,7 +424,8 @@ class MKDColumnName(str, Enum):
 def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColumnName.ownershi8):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.ZU.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.ZU.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -750,7 +451,8 @@ def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColum
 def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.OKS.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.OKS.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -776,7 +478,8 @@ def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSC
 def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName = ZOUITColumnName.VID_ZOUIT):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.ZOUIT.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.ZOUIT.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -802,7 +505,8 @@ def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName 
 def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: SpritzonesColumnName = SpritzonesColumnName.LineCode):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.spritzones.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.spritzones.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -828,7 +532,8 @@ def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: Spritz
 def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROADSColumnName = YDC_ROADSColumnName.VID_ROAD):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.YDC_ROADS.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.YDC_ROADS.value}/{layer.value}")
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -854,7 +559,8 @@ def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROAD
 def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, column: RenovationSitesColumnName = RenovationSitesColumnName.vysota):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.renovation_sites.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.renovation_sites.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -880,7 +586,8 @@ def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, co
 def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_ZONESColumnName = PPZ_ZONESColumnName.TYPE):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -906,7 +613,8 @@ def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_
 def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column: PPZ_PODZONESColumnName = PPZ_PODZONESColumnName.PLOTNOST):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -932,7 +640,8 @@ def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column
 def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTColumnName.type_krt):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.KRT.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.KRT.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -958,7 +667,8 @@ def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTC
 def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: DistrictsColumnName = DistrictsColumnName.NAME):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.DISTRICTS.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.DISTRICTS.value}/{layer.value}")
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -984,7 +694,8 @@ def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: District
 def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnName = RegionColumnName.NAME):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.region.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.region.value}/{layer.value}")
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1010,7 +721,8 @@ def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnNa
 def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnName = SurveyColumnName.KLASS):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.SURVEY.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.SURVEY.value}/{layer.value}")
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1036,7 +748,8 @@ def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnNa
 def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = OOZTColumnName.status):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.OOZT.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.OOZT.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1062,7 +775,8 @@ def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = O
 def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: CadastralColumnName = CadastralColumnName.cadastra1):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.Cadastral.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.Cadastral.value}/{layer.value}")
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1088,7 +802,8 @@ def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: Cadastra
 def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile_trans(f"{LayerFolder.MKD.value}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.MKD.value}/{layer.value}", encoding='UTF-8')
+        gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1169,6 +884,13 @@ def gdf_to_geojson(gdf) -> FeatureCollection:
         )
         features.append(feature)
     return FeatureCollection(features=features)
+
+
+def change_src_crs_to_wgs84(gdf):
+    # Get the source CRS and create a transformer to WGS-84
+    return gdf.to_crs(epsg=4326)
+
+
 
 @lru_cache
 def load_shapefiles():
