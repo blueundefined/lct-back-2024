@@ -1025,6 +1025,7 @@ class RenovationSitesPropertiesEnum(Enum):
     FLAT_AREA = "Площадь квартир"
     OSNOVANIE = "Основание"
     AGR = "АГР"
+    OBJECTID = "OBJECTID"
 
 class RenovationSitesProperties(BaseModel):
     okrug: str
