@@ -9,6 +9,7 @@ from typing import List
 
 from app.database import get_session
 from app.config import config
+from sqlalchemy.sql import text
 
 API_KEY = 'sec_AIPPRiqPmLPTsC6AobETncNoTlbHg4OA'
 UPLOAD_URL = 'https://api.chatpdf.com/v1/sources/add-file'
@@ -39,13 +40,13 @@ class DeleteResponse(BaseModel):
 
 async def save_message(session: AsyncSession, sourceId: str, message: ChatMessage):
     await session.execute(
-        f"INSERT INTO messages (sourceId, role, content) VALUES ('{sourceId}', '{message.role}', '{message.content}')"
+        text(f"INSERT INTO messages (sourceId, role, content) VALUES ('{sourceId}', '{message.role}', '{message.content}')")
     )
     await session.commit()
 
 async def get_messages(session: AsyncSession, sourceId: str):
     result = await session.execute(
-        f"SELECT * FROM messages WHERE sourceId = '{sourceId}'"
+        text(f"SELECT * FROM messages WHERE sourceId = '{sourceId}' ORDER BY id ASC")
     )
     return result.fetchall()
 
@@ -118,6 +119,6 @@ async def chat_with_pdf(request: ChatRequest, session: AsyncSession = Depends(ge
             status_code=status.HTTP_200_OK,
             description="Получить список сообщений по sourceId",
             summary="Получение списка сообщений")
-async def get_messages_route(sourceId: str, session: AsyncSession = Depends(get_session)):
+async def get_messages_route(sourceId: str = 'cha_uAPqOGzFSqbrUuCebnq8i', session: AsyncSession = Depends(get_session)):
     messages = await get_messages(session, sourceId)
     return messages
