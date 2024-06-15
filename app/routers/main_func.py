@@ -1280,7 +1280,6 @@ def get_columns():
         for field_name, field in model.__fields__.items():
             column_info = ColumnInfo(
                 name=field_name,
-                type=str(field.outer_type_),
                 description=enum[field_name.upper()].value
             )
             columns[layer_name].append(column_info)

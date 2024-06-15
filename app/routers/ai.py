@@ -5,6 +5,7 @@ from pydantic import BaseModel
 import aiohttp
 import os
 from typing import List
+from app.database import get_session
 
 from app.config import config
 
