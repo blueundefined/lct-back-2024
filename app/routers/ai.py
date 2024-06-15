@@ -40,13 +40,13 @@ class DeleteResponse(BaseModel):
 
 async def save_message(session: AsyncSession, sourceId: str, message: ChatMessage):
     await session.execute(
-        text(f"INSERT INTO messages (sourceId, role, content) VALUES ('{sourceId}', '{message.role}', '{message.content}')")
+        text(f"INSERT INTO chat_messages (sourceId, role, content) VALUES ('{sourceId}', '{message.role}', '{message.content}')")
     )
     await session.commit()
 
 async def get_messages(session: AsyncSession, sourceId: str):
     result = await session.execute(
-        text(f"SELECT * FROM messages WHERE sourceId = '{sourceId}' ORDER BY id ASC")
+        text(f"SELECT * FROM chat_messages WHERE sourceId = '{sourceId}' ORDER BY id ASC")
     )
     return result.fetchall()
 
