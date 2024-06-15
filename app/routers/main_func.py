@@ -19,7 +19,7 @@ from enum import Enum
 import geopandas as gpd
 import fiona
 from pydantic import BaseModel
-from typing import List
+from typing import List, Type
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
@@ -1231,9 +1231,9 @@ class LayerColumnsResponse(BaseModel):
     description="Список всех возможных колонок для каждого слоя",
     summary="Список всех возможных колонок для каждого слоя",
 )
-def get_columns():
-    columns = {}
-    layer_models = {
+def get_columns() -> Dict[str, List[ColumnInfo]]:
+    columns: Dict[str, List[ColumnInfo]] = {}
+    layer_models: Dict[str, Type[BaseModel]] = {
         "ZUProperties": ZUProperties,
         "OKSProperties": OKSProperties,
         "ZOUITProperties": ZOUITProperties,
@@ -1250,7 +1250,7 @@ def get_columns():
         "PPTProperties": PPTProperties,
     }
 
-    layer_enums = {
+    layer_enums: Dict[str, Type[Enum]] = {
         "ZUProperties": ZUPropertiesEnum,
         "OKSProperties": OKSPropertiesEnum,
         "ZOUITProperties": ZOUITPropertiesEnum,
