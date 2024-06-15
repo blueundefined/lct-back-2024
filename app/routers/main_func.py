@@ -1,4 +1,3 @@
-import json
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from pyproj import Proj, transform
@@ -438,11 +437,7 @@ def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColum
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/OKS", 
@@ -469,11 +464,7 @@ def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSC
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/ZOUIT", 
@@ -500,11 +491,7 @@ def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName 
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/spritzones", 
@@ -531,11 +518,7 @@ def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: Spritz
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/YDC_ROADS", 
@@ -562,11 +545,7 @@ def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROAD
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/renovation_sites", 
@@ -593,11 +572,7 @@ def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, co
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/PPZ_ZONES", 
@@ -624,11 +599,7 @@ def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/PPZ_PODZONES", 
@@ -655,11 +626,7 @@ def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/KRT", 
@@ -686,11 +653,7 @@ def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTC
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/Districts", 
@@ -717,11 +680,7 @@ def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: District
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/Region",
@@ -748,11 +707,7 @@ def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnNa
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/Survey", 
@@ -779,11 +734,7 @@ def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnNa
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/OOZT", 
@@ -810,11 +761,7 @@ def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = O
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/Cadastral", 
@@ -841,11 +788,7 @@ def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: Cadastra
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "geojson file saved"
+    return geojson
 
 @router.get(
     "/visualize/MKD", 
@@ -872,11 +815,7 @@ def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDC
     
     geojson = gdf_to_geojson(gdf)
 
-    # save geojson to file
-    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
-        json.dump(geojson.dict(), f)
-    #return geojson
-    return "Geojson file saved"
+    return geojson
 
 @lru_cache
 def read_shapefile(file, encode='cp1251'):
@@ -960,7 +899,7 @@ def load_shapefiles():
     for layer, folder in LayerFolder.__members__.items():
         for file in os.listdir(os.path.join(data_dir, folder.value)):
             if file.endswith('.shp'):
-                if layer == LayerName.ZU or layer == LayerName.OKS or layer == LayerName.ZOUIT or layer == LayerName.spritzones or layer == LayerName.renovation_sites or layer == LayerName.PPZ_ZONES_NEW or layer == LayerName.PPZ_ZONES_OLD or layer == LayerName.PPZ_PODZONES_OLD or layer == LayerName.PPZ_PODZONES_NEW or layer == LayerName.KRT or layer == LayerName.OOZT or layer == LayerName.MKD:
+                if layer == LayerNameProps.ZU or layer == LayerNameProps.OKS or layer == LayerNameProps.ZOUIT or layer == LayerNameProps.spritzones or layer == LayerNameProps.renovation_sites or layer == LayerNameProps.PPZ_ZONES_NEW or layer == LayerNameProps.PPZ_ZONES_OLD or layer == LayerNameProps.PPZ_PODZONES_OLD or layer == LayerNameProps.PPZ_PODZONES_NEW or layer == LayerNameProps.KRT or layer == LayerNameProps.OOZT or layer == LayerNameProps.MKD:
                     try:
                         gdf = read_shapefile(f"{folder.value}/{file}", encode='UTF8')
                     except Exception as e:
@@ -1259,7 +1198,7 @@ class PPTProperties(BaseModel):
 
 
 # api router to return every possible column for each layer to be used in the visualization
-class LayerName(Enum):
+class LayerNameProps(Enum):
     ZUProperties = "ZUProperties"
     OKSProperties = "OKSProperties"
     ZOUITProperties = "ZOUITProperties"
@@ -1329,7 +1268,7 @@ def get_columns() -> Dict[str, List[ColumnInfo]]:
         "PPTProperties": PPTPropertiesEnum,
     }
 
-    for layer in LayerName:
+    for layer in LayerNameProps:
         layer_name = layer.value
         model = layer_models[layer_name]
         enum = layer_enums[layer_name]
@@ -1347,3 +1286,23 @@ def get_columns() -> Dict[str, List[ColumnInfo]]:
 
 # load all shapefiles into memory to speed up the visualization and avoid reading the files each time
 # load_shapefiles()
+
+# save the shapefiles to a json file to avoid reading the files each time and save it to output folder
+def save_shapefiles_to_json():
+    for layer, folder in LayerFolder.__members__.items():
+        for file in os.listdir(os.path.join(data_dir, folder.value)):
+            if file.endswith('.shp'):
+                if layer == LayerName.ZU or layer == LayerName.OKS or layer == LayerName.ZOUIT or layer == LayerName.spritzones or layer == LayerName.renovation_sites or layer == LayerName.PPZ_ZONES_NEW or layer == LayerName.PPZ_ZONES_OLD or layer == LayerName.PPZ_PODZONES_OLD or layer == LayerName.PPZ_PODZONES_NEW or layer == LayerName.KRT or layer == LayerName.OOZT or layer == LayerName.MKD:
+                    try:
+                        gdf = read_shapefile(f"{folder.value}/{file}", encode='UTF8')
+                    except Exception as e:
+                        print(f"Error reading the shapefile: {str(e)}")
+                else:
+                    try:
+                        gdf = read_shapefile(f"{folder.value}/{file}")
+                    except Exception as e:
+                        print(f"Error reading the shapefile: {str(e)}")
+                gdf.to_file(f"output/{layer.value}.json", driver="GeoJSON")
+    
+    print("All shapefiles saved to json files")
+
