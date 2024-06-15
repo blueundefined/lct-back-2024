@@ -1215,17 +1215,13 @@ class LayerName(Enum):
 
 class ColumnInfo(BaseModel):
     name: str
-    type: str
+    #type: str
     description: str
 
 class LayerColumnsResponse(BaseModel):
     layer: str
     columns: List[ColumnInfo]
 
-class ColumnInfo(BaseModel):
-    name: str
-    type: str
-    description: str
 
 @router.get(
     "/columns/",
