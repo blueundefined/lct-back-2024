@@ -1273,6 +1273,7 @@ def get_columns() -> Dict[str, List[ColumnInfo]]:
         enum = layer_enums[layer_name]
         columns[layer_name] = []
 
+        print("Layer: ", layer_name)
         for field_name, field in model.__fields__.items():
             column_info = ColumnInfo(
                 name=field_name,
