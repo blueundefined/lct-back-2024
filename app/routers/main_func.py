@@ -1178,7 +1178,8 @@ def load_shapefiles():
                 except Exception as e:
                     print(f"Error reading the shapefile {file}: {str(e)}")
                     continue
-        
+    
+    print("All shapefiles loaded into memory")
 
 
 
