@@ -12,6 +12,20 @@ from app.database.tables import ChatMessage
 from sqlalchemy.ext.asyncio import AsyncSession 
 from app.config import config
 
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi.responses import JSONResponse
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
+from pydantic import BaseModel
+from typing import List
+
+import aiohttp
+import os
+
+from app.database import get_session
+from app.database.tables import ChatMessage
+from app.config import config
+
 API_KEY = 'sec_AIPPRiqPmLPTsC6AobETncNoTlbHg4OA'
 UPLOAD_URL = 'https://api.chatpdf.com/v1/sources/add-file'
 CHAT_URL = 'https://api.chatpdf.com/v1/chats/message'
@@ -24,7 +38,7 @@ class ChatMessage(BaseModel):
     content: str
 
 class ChatRequest(BaseModel):
-    sourceId: str
+    sourceId: str = 'cha_uAPqOGzFSqbrUuCebnq8i'
     messages: List[ChatMessage]
 
 class ChatResponse(BaseModel):
@@ -39,7 +53,7 @@ class DeleteRequest(BaseModel):
 class DeleteResponse(BaseModel):
     detail: str
 
-async def save_chat_message(source_id: str, role: str, content: str, session: AsyncSession = Depends(get_session)) -> ChatMessage:
+async def save_chat_message(source_id: str, role: str, content: str, session: AsyncSession) -> ChatMessage:
     db_message = ChatMessage(source_id=source_id, role=role, content=content)
     session.add(db_message)
     await session.commit()
@@ -90,8 +104,8 @@ async def delete_pdf(request: DeleteRequest):
              description="Получить помощь по файлу",
              summary="Общение с файлом")
 async def chat_with_pdf(request: ChatRequest, session: AsyncSession = Depends(get_session)):
-    async with aiohttp.ClientSession() as session:
-        async with session.post(
+    async with aiohttp.ClientSession() as http_session:
+        async with http_session.post(
             CHAT_URL,
             headers={'x-api-key': API_KEY},
             json={
@@ -102,19 +116,19 @@ async def chat_with_pdf(request: ChatRequest, session: AsyncSession = Depends(ge
             if response.status == 200:
                 result = await response.json()
                 for msg in request.messages:
-                    save_chat_message(session, request.sourceId, msg.role, msg.content)
-                save_chat_message(session, request.sourceId, "assistant", result['content'])
+                    await save_chat_message(request.sourceId, msg.role, msg.content, session)
+                await save_chat_message(request.sourceId, "assistant", result['content'], session)
                 return JSONResponse(content={"content": result['content']})
             else:
                 error = await response.text()
                 raise HTTPException(status_code=response.status, detail=error)
-            
+
 @router.get("/ai/chat/get_chat_messages", response_model=List[ChatMessage],
             response_description="Успешное получение списка сообщений",
             status_code=status.HTTP_200_OK,
             description="Получить список сообщений по sourceId",
             summary="Получение списка сообщений")
-async def get_messages_by_source_id(source_id: str, session: AsyncSession = Depends(get_session)) -> list[ChatMessage]:
+async def get_messages_by_source_id(source_id: str = 'cha_uAPqOGzFSqbrUuCebnq8i', session: AsyncSession = Depends(get_session)) -> List[ChatMessage]:
     result = await session.execute(select(ChatMessage).filter(ChatMessage.source_id == source_id).order_by(ChatMessage.id))
     messages = result.scalars().all()
     return messages
