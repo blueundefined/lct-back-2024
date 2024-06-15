@@ -719,7 +719,7 @@ class MKDColumnName(str, Enum):
 def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColumnName.ownershi8):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.ZU}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.ZU.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -745,7 +745,7 @@ def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColum
 def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.OKS}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.OKS.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -771,7 +771,7 @@ def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSC
 def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName = ZOUITColumnName.VID_ZOUIT):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.ZOUIT}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.ZOUIT.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -797,7 +797,7 @@ def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName 
 def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: SpritzonesColumnName = SpritzonesColumnName.LineCode):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.spritzones}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.spritzones.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -823,7 +823,7 @@ def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: Spritz
 def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROADSColumnName = YDC_ROADSColumnName.VID_ROAD):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.YDC_ROADS}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.YDC_ROADS.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -849,7 +849,7 @@ def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROAD
 def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, column: RenovationSitesColumnName = RenovationSitesColumnName.vysota):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.renovation_sites}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.renovation_sites.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -875,7 +875,7 @@ def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, co
 def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_ZONESColumnName = PPZ_ZONESColumnName.TYPE):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.PPZ_ZONES}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -901,7 +901,7 @@ def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_
 def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column: PPZ_PODZONESColumnName = PPZ_PODZONESColumnName.PLOTNOST):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.PPZ_PODZONES}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -927,7 +927,7 @@ def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column
 def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTColumnName.type_krt):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.KRT}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.KRT.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -953,7 +953,7 @@ def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTC
 def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: DistrictsColumnName = DistrictsColumnName.NAME):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.DISTRICTS}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.DISTRICTS.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -979,7 +979,7 @@ def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: District
 def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnName = RegionColumnName.NAME):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.region}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.region.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1005,7 +1005,7 @@ def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnNa
 def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnName = SurveyColumnName.KLASS):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.SURVEY}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.SURVEY.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1031,7 +1031,7 @@ def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnNa
 def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = OOZTColumnName.status):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.OOZT}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.OOZT.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1057,7 +1057,7 @@ def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = O
 def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: CadastralColumnName = CadastralColumnName.cadastra1):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.Cadastral}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.Cadastral.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1083,7 +1083,7 @@ def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: Cadastra
 def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.MKD}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.MKD.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
