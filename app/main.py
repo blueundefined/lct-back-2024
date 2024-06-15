@@ -18,6 +18,7 @@ from app.routers.schedule import router as schedule_router
 from app.routers.manuals import router as manuals_router
 from app.routers.ai import router as ai_router
 from app.routers.solution import router as solution_router
+from app.routers.main_func import router as main_func_router
 
 tags_metadata = [
     {"name": "Авторизация", "description": "Авторизация"},
@@ -31,7 +32,8 @@ tags_metadata = [
     {"name": "Справочники", "description": "Работа со справочниками"},
     {"name": "Нейросети", "description": "Работа с нейросетевыми решениями"},
     {"name": "Расчёт участков", "description": "Решение задачи расчёта участков"},
-]
+    {"name": "Геообработка", "description": "Решение задач геообработки"}
+    ]
 
 app = FastAPI(
     docs_url=None,
@@ -186,6 +188,7 @@ app.include_router(schedule_router, tags=["Расписание"])
 app.include_router(manuals_router, tags=["Справочники"])
 app.include_router(ai_router, tags=["Нейросети"])
 app.include_router(solution_router, tags=["Расчёт участков"])
+app.include_router(main_func_router, tags=["Геообработка"])
 
 
 print("app.main.py: app created.")
