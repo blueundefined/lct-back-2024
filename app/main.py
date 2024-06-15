@@ -40,7 +40,7 @@ app = FastAPI(
     redoc_url="/redoc",
     debug=config.DEBUG,
     openapi_tags=tags_metadata,
-    openapi_url=f"{config.BACKEND_PREFIX}/openapi.json", 
+    openapi_url=f"{config.BACKEND_PREFIX}/openapi.json",
     title=config.BACKEND_TTILE,
     #description=config.BACKEND_DESCRIPTION,
     description="""
@@ -170,7 +170,7 @@ async def api_documentation(request: Request):
         router="hash", 
         layout="responsive",
         tryItCredentialsPolicy="include",
-        hideExport="true",
+        hideExport="false",
         logo="static/favicon.ico"
       />
     </div>
