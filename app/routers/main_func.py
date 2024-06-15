@@ -1054,10 +1054,10 @@ def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = O
     summary="Кадастровое деление",
     # responses={},
         )
-def visualize_cadastral(layer: LayerName = LayerName.CADASTRAL, column: CadastralColumnName = CadastralColumnName.cadastra1):
+def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: CadastralColumnName = CadastralColumnName.cadastra1):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.CADASTRAL}/{layer.value}")
+        gdf = read_shapefile(f"{LayerFolder.Cadastral}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1120,18 +1120,8 @@ def gdf_to_geojson(gdf) -> FeatureCollection:
     features = []
     for _, row in gdf.iterrows():
         feature = Feature(
-            properties=Properties(
-                OBJECTID=row['OBJECTID'],
-                NAME=row['NAME'],
-                SHAPE_AREA=row['SHAPE_AREA'],
-                SHAPE_LEN=row['SHAPE_LEN'],
-                color=row['color']
-            ),
-            geometry=Geometry(
-                type=row['geometry'].geom_type,
-                coordinates=row['geometry'].__geo_interface__['coordinates']
-            )
+            geometry=row['geometry'].__geo_interface__,
+            properties=row.drop('geometry').to_dict()
         )
         features.append(feature)
-    
     return FeatureCollection(features=features)
