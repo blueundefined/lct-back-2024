@@ -46,7 +46,7 @@ async def save_message(session: AsyncSession, sourceId: str, message: ChatMessag
 
 async def get_messages(session: AsyncSession, sourceId: str):
     result = await session.execute(
-        text(f"SELECT * FROM chat_messages WHERE sourceId = '{sourceId}' ORDER BY id ASC")
+        text(f"SELECT * FROM chat_messages WHERE chat_messages.source_id = '{sourceId}' ORDER BY chat_messages.id ASC")
     )
     return result.fetchall()
 
