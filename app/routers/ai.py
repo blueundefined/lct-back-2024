@@ -40,7 +40,7 @@ class DeleteResponse(BaseModel):
 
 async def save_message(session: AsyncSession, sourceId: str, message: ChatMessage):
     await session.execute(
-        text(f"INSERT INTO chat_messages (sourceId, role, content) VALUES ('{sourceId}', '{message.role}', '{message.content}')")
+        text(f"INSERT INTO chat_messages (source_id, role, content) VALUES ('{sourceId}', '{message.role}', '{message.content}')")
     )
     await session.commit()
 
