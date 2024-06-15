@@ -913,7 +913,374 @@ def load_shapefiles():
     
     print("All shapefiles loaded into memory")
 
+from enum import Enum
+from pydantic import BaseModel
 
+class ZUPropertiesEnum(Enum):
+    CADASTRA2 = "Кадастровый/учетный номер"
+    ADDRESS = "Адрес"
+    HASVALID5 = "Наличие действующего правоудостоверяющего документа (1 - есть, 0 - нет)"
+    HASCADAS6 = "На кадастровом учете (1 - да, 0 - нет)"
+    ISDRAFT = "Проекты (распоряжения) (1 - да, 0 - нет)"
+    OWNERSHI8 = "Тип собственности (1 - МСК, 2 - РФ, 3 - Частная, 5 - Неразграниченная)"
+    IS_STROY = "Наличие действующего разрешения на строительство (1 - да, 0 - нет)"
+    IS_NONCA20 = "Земельные участки с ЗПО для некапитальных объектов (1 - да, 0 - нет)"
+    AREA = "Площадь, кв.м"
+
+class ZUProperties(BaseModel):
+    cadastra2: str
+    address: str
+    hasvalid5: str
+    hascadas6: str
+    isdraft: str
+    ownershi8: float
+    is_stroy: str
+    is_nonca20: float
+    area: float
+
+class OKSPropertiesEnum(Enum):
+    UNOM = "УНОМ"
+    ADDRESS = "Адрес"
+    CADASTRA3 = "Кадастровый номер"
+    HASCADAS4 = "На кадастровом учете"
+    HASBTI = "На кадастровом учете БТИ"
+    HASOWNRF = "РФ"
+    HASOWNMO8 = "Москва"
+    HASOWNOT9 = "Другие"
+    SHAPE_AREA = "Площадь"
+
+class OKSProperties(BaseModel):
+    unom: float
+    address: str
+    cadastra3: str
+    hascadas4: str
+    hasbti: str
+    hasownrf: str
+    hasownmo8: str
+    hasownot9: str
+    shape_area: float
+
+class ZOUITPropertiesEnum(Enum):
+    CAD_NUM = "Кадастровый номер зоны"
+    OKRUG = "Округ"
+    RAION_POS = "Район"
+    VID_ZOUIT = "Вид ЗОУИТ"
+    TYPE_ZONE = "Тип ЗОУИТ"
+    NAME = "Название зоны"
+    OGRAN = "Дополнительные сведения"
+    DOC = "Документ"
+    AREA = "Площадь"
+
+class ZOUITProperties(BaseModel):
+    cad_num: str
+    okrug: str
+    raion_pos: str
+    vid_zouit: str
+    type_zone: str
+    name: str
+    ogran: str
+    doc: str
+    area: float
+
+class SpritzonesPropertiesEnum(Enum):
+    LINECODE = "Код линии"
+    NAME = "Наименование зоны"
+    DOC = "Документ"
+    COMMENT = "Комментарий"
+    AREA = "Площадь"
+
+class SpritzonesProperties(BaseModel):
+    linecode: str
+    name: str
+    doc: str
+    comment: str
+    area: float
+
+class YDC_ROADSPropertiesEnum(Enum):
+    NAME_OBJ = "Наименование"
+    NAME_STR = "Наименование улицы"
+    VID_ROAD = "Вид дороги"
+    EXT_NAME = "Наименование улицы"
+    SHAPE_LENG = "Геометрический периметр"
+    SHAPE_AREA = "Геометрическая площадь"
+
+class YDC_ROADSProperties(BaseModel):
+    name_obj: str
+    name_str: str
+    vid_road: str
+    ext_name: str
+    shape_leng: float
+    shape_area: float
+
+class RenovationSitesPropertiesEnum(Enum):
+    OKRUG = "Административный округ"
+    RAYON = "Административный район"
+    ADDRESS = "Адрес"
+    AREA = "Площадь"
+    PRIM = "Примечание"
+    PLOTNOST = "Плотность"
+    VYSOTA = "Высота"
+    SPP = "СПП"
+    TOTAL_AREA = "Общая площадь"
+    FLAT_AREA = "Площадь квартир"
+    OSNOVANIE = "Основание"
+    AGR = "АГР"
+
+class RenovationSitesProperties(BaseModel):
+    okrug: str
+    rayon: str
+    address: str
+    area: str
+    prim: str
+    plotnost: str
+    vysota: str
+    spp: str
+    total_area: str
+    flat_area: str
+    osnovanie: str
+    agr: str
+    objectid: str
+
+class PPZ_ZONESPropertiesEnum(Enum):
+    ZONE_NUM = "Номер зоны"
+    NUM_PP = "Номер утверждающего документа"
+    DOC_DATE = "Дата утверждающего документа"
+    TYPE = "Тип"
+    INDEX_ = "ВРИ"
+    VRI_540 = "ВРИ"
+    AREA = "Площадь"
+
+class PPZ_ZONESProperties(BaseModel):
+    zone_num: str
+    num_pp: str
+    doc_date: str
+    type: str
+    index_: str
+    vri_540: str
+    area: float
+
+class PPZ_PODZONESPropertiesEnum(Enum):
+    PLOTNOST = "Плотность"
+    VYSOTA = "Высота"
+    PROCZASTRO = "Процент застройки"
+    PODZONE_NU = "Номер подзоны"
+    NUM_PP = "Номер утверждающего документа"
+    DOC_DATE = "Дата утверждающего документа"
+    TYPE = "Тип"
+    AREA = "Площадь"
+
+class PPZ_PODZONESProperties(BaseModel):
+    plotnost: str
+    vysota: str
+    proczastro: str
+    podzone_nu: str
+    num_pp: str
+    doc_date: str
+    type: str
+    area: float
+
+class KRTPropertiesEnum(Enum):
+    NAME = "Наименование КРТ"
+    AREA_KRT = "Площадь КРТ"
+    TYPE_KRT = "Наименование типа слоя"
+
+class KRTProperties(BaseModel):
+    name: str
+    area_krt: float
+    type_krt: str
+
+class DistrictsPropertiesEnum(Enum):
+    OBJECTID = "Номер объекта"
+    NAME = "Наименование"
+    LABEL = "Метка"
+    TORZID = "Идентификатор территории"
+    SHAPE_AREA = "Геометрическая площадь"
+    SHAPE_LEN = "Геометрическая длина"
+
+class DistrictsProperties(BaseModel):
+    objectid: int
+    name: str
+    label: str
+    torzid: float
+    shape_area: float
+    shape_len: float
+
+class RegionPropertiesEnum(Enum):
+    OBJECTID = "Номер объекта"
+    NAME = "Наименование"
+    LABEL = "Метка"
+    TORZID = "Идентификатор территории"
+    SHAPE_AREA = "Геометрическая площадь"
+    SHAPE_LEN = "Геометрическая длина"
+
+class RegionProperties(BaseModel):
+    objectid: int
+    name: str
+    label: str
+    torzid: float
+    shape_area: float
+    shape_len: float
+
+class SurveyPropertiesEnum(Enum):
+    NUMBERAREA = "Системное поле"
+    DESCR = "Учетный номер участка межевания"
+    KLASS = "Класс"
+    FUNC_USE = "Функциональное использование"
+    N_KVAR = "Номер квартала"
+    N_PARC = "Номер участка"
+    YEAR = "Год разработки"
+    AREA = "Площадь по документу"
+    SHAPE_AREA = "Геометрическая площадь"
+
+class SurveyProperties(BaseModel):
+    numberarea: int
+    descr: str
+    klass: str
+    func_use: str
+    n_kvar: str
+    n_parc: str
+    year: str
+    area: float
+    shape_area: float
+
+class OOZTPropertiesEnum(Enum):
+    OBJECTID = "Номер объекта"
+    STATUS = "Статус"
+    ZONEID = "Зона"
+    DOCNUM = "Номер документа"
+    DOCDATE = "Дата документа"
+    DOCLIST = "Лист"
+
+class OOZTProperties(BaseModel):
+    objectid: str
+    status: str
+    zoneid: str
+    docnum: str
+    docdate: str
+    doclist: str
+
+class PPTPropertiesEnum(Enum):
+    REG_NUM = "Регистрационный номер"
+    VID_PPT = "Вид ППТ"
+    NAME = "Название"
+    VID_DOC_RA = "Вид распоряжения"
+    NUM_DOC_RA = "Номер распоряжения"
+    DATA_DOC_R = "Дата распоряжения"
+    ZAKAZCHIK = "Заказчик"
+    ISPOLNITEL = "Исполнитель"
+    ISTOCH_FIN = "Источник финансов"
+    OTVETST_MK = "Ответственный МК"
+    NUM_KONTRA = "Номер контракта"
+    DATA_KONTR = "Дата контракта"
+    REKV_PROEK = "Реквизиты проектных документов"
+    DOVER_ORG = "Доверенная организация"
+    OSNOVANIEN = "Основание"
+    DATA_PP = "Дата утверждения ПП"
+
+class PPTProperties(BaseModel):
+    reg_num: str
+    vid_ppt: str
+    name: str
+    vid_doc_ra: str
+    num_doc_ra: str
+    data_doc_r: str
+    zakazchik: str
+    ispolnitel: str
+    istoch_fin: str
+    otvetst_mk: str
+    num_kontra: str
+    data_kontr: str
+    rekv_proek: str
+    dover_org: str
+    osnovanien: str
+    data_pp: str
+
+
+# api router to return every possible column for each layer to be used in the visualization
+class LayerName(Enum):
+    ZUProperties = "ZUProperties"
+    OKSProperties = "OKSProperties"
+    ZOUITProperties = "ZOUITProperties"
+    SpritzonesProperties = "SpritzonesProperties"
+    YDC_ROADSProperties = "YDC_ROADSProperties"
+    RenovationSitesProperties = "RenovationSitesProperties"
+    PPZ_ZONESProperties = "PPZ_ZONESProperties"
+    PPZ_PODZONESProperties = "PPZ_PODZONESProperties"
+    KRTProperties = "KRTProperties"
+    DistrictsProperties = "DistrictsProperties"
+    RegionProperties = "RegionProperties"
+    SurveyProperties = "SurveyProperties"
+    OOZTProperties = "OOZTProperties"
+    PPTProperties = "PPTProperties"
+
+class ColumnInfo(BaseModel):
+    name: str
+    type: str
+    description: str
+
+class LayerColumnsResponse(BaseModel):
+    layer: str
+    columns: List[ColumnInfo]
+
+@router.get(
+    "/columns/",
+    response_model=Dict[str, List[ColumnInfo]],
+    response_description="Список всех возможных колонок для каждого слоя",
+    status_code=status.HTTP_200_OK,
+    description="Список всех возможных колонок для каждого слоя",
+    summary="Список всех возможных колонок для каждого слоя",
+)
+def get_columns(): 
+    columns = {}
+    layer_models = {
+        "ZUProperties": ZUProperties,
+        "OKSProperties": OKSProperties,
+        "ZOUITProperties": ZOUITProperties,
+        "SpritzonesProperties": SpritzonesProperties,
+        "YDC_ROADSProperties": YDC_ROADSProperties,
+        "RenovationSitesProperties": RenovationSitesProperties,
+        "PPZ_ZONESProperties": PPZ_ZONESProperties,
+        "PPZ_PODZONESProperties": PPZ_PODZONESProperties,
+        "KRTProperties": KRTProperties,
+        "DistrictsProperties": DistrictsProperties,
+        "RegionProperties": RegionProperties,
+        "SurveyProperties": SurveyProperties,
+        "OOZTProperties": OOZTProperties,
+        "PPTProperties": PPTProperties,
+    }
+
+    layer_enums = {
+        "ZUProperties": ZUPropertiesEnum,
+        "OKSProperties": OKSPropertiesEnum,
+        "ZOUITProperties": ZOUITPropertiesEnum,
+        "SpritzonesProperties": SpritzonesPropertiesEnum,
+        "YDC_ROADSProperties": YDC_ROADSPropertiesEnum,
+        "RenovationSitesProperties": RenovationSitesPropertiesEnum,
+        "PPZ_ZONESProperties": PPZ_ZONESPropertiesEnum,
+        "PPZ_PODZONESProperties": PPZ_PODZONESPropertiesEnum,
+        "KRTProperties": KRTPropertiesEnum,
+        "DistrictsProperties": DistrictsPropertiesEnum,
+        "RegionProperties": RegionPropertiesEnum,
+        "SurveyProperties": SurveyPropertiesEnum,
+        "OOZTProperties": OOZTPropertiesEnum,
+        "PPTProperties": PPTPropertiesEnum,
+    }
+
+    for layer in LayerName:
+        layer_name = layer.value
+        model = layer_models[layer_name]
+        enum = layer_enums[layer_name]
+        columns[layer_name] = []
+
+        for field_name, field in model.__fields__.items():
+            column_info = ColumnInfo(
+                name=field_name,
+                type=str(field.type_),
+                description=enum[field_name.upper()].value
+            )
+            columns[layer_name].append(column_info)
+
+    return columns
 
 # load all shapefiles into memory to speed up the visualization and avoid reading the files each time
 # load_shapefiles()
