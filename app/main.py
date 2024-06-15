@@ -169,8 +169,7 @@ async def api_documentation(request: Request):
         apiDescriptionUrl="openapi.json"
         router="hash", 
         layout="responsive",
-        tryItCredentialsPolicy="include",
-        hideExport="false",
+        tryItCredentialsPolicy="include"S
         logo="static/favicon.ico"
       />
     </div>
