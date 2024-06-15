@@ -1,29 +1,13 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, APIRouter
 from fastapi.responses import JSONResponse
-from sqlalchemy import select
 from starlette import status
 from pydantic import BaseModel
 import aiohttp
 import os
 from typing import List
-from app.database import get_session
-
-from app.database.tables import ChatMessage
-from sqlalchemy.ext.asyncio import AsyncSession 
-from app.config import config
-
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
-from fastapi.responses import JSONResponse
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.future import select
-from pydantic import BaseModel
-from typing import List
-
-import aiohttp
-import os
 
 from app.database import get_session
-from app.database.tables import ChatMessage
+
 from app.config import config
 
 API_KEY = 'sec_AIPPRiqPmLPTsC6AobETncNoTlbHg4OA'
@@ -53,18 +37,26 @@ class DeleteRequest(BaseModel):
 class DeleteResponse(BaseModel):
     detail: str
 
-async def save_chat_message(source_id: str, role: str, content: str, session: AsyncSession) -> ChatMessage:
-    db_message = ChatMessage(source_id=source_id, role=role, content=content)
-    session.add(db_message)
-    await session.commit()
-    await session.refresh(db_message)
-    return db_message
+async def save_message(db, sourceId, message):
+    async with db() as session:
+        async with session.begin():
+            await session.execute(
+                f"INSERT INTO messages (sourceId, role, content) VALUES ('{sourceId}', '{message.role}', '{message.content}')"
+            )
+
+async def get_messages(db, sourceId):
+    async with db() as session:
+        async with session.begin():
+            result = await session.execute(
+                f"SELECT * FROM messages WHERE sourceId = '{sourceId}'"
+            )
+            return result.fetchall()
 
 @router.post("/ai/chat/upload_pdf", response_description="Успешная загрузка PDF-файла и получение его sourceId",
              response_model=UploadResponse,
              status_code=status.HTTP_200_OK,
-             description="Загрузить PDF-файл и получить его sourceId",
-             summary="Загрузка PDF-файла и получение его sourceId")
+    description="Загрузить PDF-файл и получить его sourceId",
+    summary="Загрузка PDF-файла и получение его sourceId")
 async def upload_pdf(file: UploadFile = File(...)):
     async with aiohttp.ClientSession() as session:
         async with session.post(
@@ -79,12 +71,12 @@ async def upload_pdf(file: UploadFile = File(...)):
                 error = await response.text()
                 raise HTTPException(status_code=response.status, detail=error)
 
-@router.post("/ai/chat/delete_pdf",
-             response_description="Успешное удаление PDF-файла",
-             status_code=status.HTTP_200_OK,
-             response_model=DeleteResponse,
-             description="Удалить PDF-файл по его sourceId",
-             summary="Удаление PDF-файла")
+@router.post("/ai/chat/delete_pdf", 
+                response_description="Успешное удаление PDF-файла",
+                status_code=status.HTTP_200_OK,
+                response_model=DeleteResponse,
+        description="Удалить PDF-файл по его sourceId",
+        summary="Удаление PDF-файла")
 async def delete_pdf(request: DeleteRequest):
     async with aiohttp.ClientSession() as session:
         async with session.post(
@@ -99,13 +91,13 @@ async def delete_pdf(request: DeleteRequest):
                 raise HTTPException(status_code=response.status, detail=error)
 
 @router.post("/ai/chat/chat_with_pdf", response_model=ChatResponse,
-             response_description="Успешное получение помощи по файлу",
-             status_code=status.HTTP_200_OK,
-             description="Получить помощь по файлу",
-             summary="Общение с файлом")
-async def chat_with_pdf(request: ChatRequest, session: AsyncSession = Depends(get_session)):
-    async with aiohttp.ClientSession() as http_session:
-        async with http_session.post(
+                response_description="Успешное получение помощи по файлу",
+                status_code=status.HTTP_200_OK,
+        description="Получить помощь по файлу",
+        summary="Общение с файлом")
+async def chat_with_pdf(request: ChatRequest):
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
             CHAT_URL,
             headers={'x-api-key': API_KEY},
             json={
@@ -115,20 +107,21 @@ async def chat_with_pdf(request: ChatRequest, session: AsyncSession = Depends(ge
         ) as response:
             if response.status == 200:
                 result = await response.json()
-                for msg in request.messages:
-                    await save_chat_message(request.sourceId, msg.role, msg.content, session)
-                await save_chat_message(request.sourceId, "assistant", result['content'], session)
+                # Сохраняем сообщения в базу данных
+                async with get_session() as db:
+                    for message in request.messages:
+                        await save_message(db, request.sourceId, message)
                 return JSONResponse(content={"content": result['content']})
             else:
                 error = await response.text()
                 raise HTTPException(status_code=response.status, detail=error)
-
-@router.get("/ai/chat/get_chat_messages", response_model=List[ChatMessage],
+            
+@router.get("/ai/chat/get_messages", response_model=List[ChatMessage],
             response_description="Успешное получение списка сообщений",
             status_code=status.HTTP_200_OK,
-            description="Получить список сообщений по sourceId",
-            summary="Получение списка сообщений")
-async def get_messages_by_source_id(source_id: str = 'cha_uAPqOGzFSqbrUuCebnq8i', session: AsyncSession = Depends(get_session)) -> List[ChatMessage]:
-    result = await session.execute(select(ChatMessage).filter(ChatMessage.source_id == source_id).order_by(ChatMessage.id))
-    messages = result.scalars().all()
-    return messages
+    description="Получить список сообщений по sourceId",
+    summary="Получение списка сообщений")
+async def get_messages_route(sourceId: str = 'cha_uAPqOGzFSqbrUuCebnq8i'):
+    async with get_session() as db:
+        messages = await get_messages(db, sourceId)
+        return messages
