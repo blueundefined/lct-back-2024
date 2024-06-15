@@ -1131,6 +1131,8 @@ def transform_geometry(transformer, target_crs, geom):
 
 @lru_cache
 def read_shapefile_trans(file, encode='cp1251'):
+    
+
     with fiona.open(os.path.join(data_dir, file), encoding=encode) as src:
         # Get the source CRS and create a transformer to WGS-84
         src_crs = src.crs
@@ -1170,14 +1172,21 @@ def gdf_to_geojson(gdf) -> FeatureCollection:
 
 def load_shapefiles():
     # load all shapefiles into memory to speed up the visualization and avoid reading the files each time
+    # if ЗУ, ОКС, ЗОУИТ, СПРИТ, Реновация, ПЗЗ, КРТ, ООЗТ, МКД - encoding='UTF8'
     for layer, folder in LayerFolder.__members__.items():
         for file in os.listdir(os.path.join(data_dir, folder.value)):
             if file.endswith('.shp'):
-                try:
-                    gdf = read_shapefile_trans(f"{folder.value}/{file}")
-                except Exception as e:
-                    print(f"Error reading the shapefile {file}: {str(e)}")
-                    continue
+                if layer == LayerName.ZU or layer == LayerName.OKS or layer == LayerName.ZOUIT or layer == LayerName.spritzones or layer == LayerName.renovation_sites or layer == LayerName.PPZ_ZONES_NEW or layer == LayerName.PPZ_ZONES_OLD or layer == LayerName.PPZ_PODZONES_OLD or layer == LayerName.PPZ_PODZONES_NEW or layer == LayerName.KRT or layer == LayerName.OOZT or layer == LayerName.MKD:
+                    try:
+                        gdf = read_shapefile_trans(f"{folder.value}/{file}", encode='UTF8')
+                    except Exception as e:
+                        print(f"Error reading the shapefile: {str(e)}")
+                else:
+                    try:
+                        gdf = read_shapefile_trans(f"{folder.value}/{file}")
+                    except Exception as e:
+                        print(f"Error reading the shapefile: {str(e)}")
+
     
     print("All shapefiles loaded into memory")
 
