@@ -1,10 +1,13 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from pyproj import Proj, transform
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from app.config import config
 from app.database.connection import get_session
+
+from functools import lru_cache
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
 
@@ -719,7 +722,7 @@ class MKDColumnName(str, Enum):
 def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColumnName.ownershi8):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.ZU.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.ZU.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -745,7 +748,7 @@ def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColum
 def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.OKS.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.OKS.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -771,7 +774,7 @@ def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSC
 def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName = ZOUITColumnName.VID_ZOUIT):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.ZOUIT.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.ZOUIT.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -797,7 +800,7 @@ def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName 
 def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: SpritzonesColumnName = SpritzonesColumnName.LineCode):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.spritzones.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.spritzones.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -823,7 +826,7 @@ def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: Spritz
 def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROADSColumnName = YDC_ROADSColumnName.VID_ROAD):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.YDC_ROADS.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.YDC_ROADS.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -849,7 +852,7 @@ def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROAD
 def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, column: RenovationSitesColumnName = RenovationSitesColumnName.vysota):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.renovation_sites.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.renovation_sites.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -875,7 +878,7 @@ def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, co
 def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_ZONESColumnName = PPZ_ZONESColumnName.TYPE):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -901,7 +904,7 @@ def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_
 def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column: PPZ_PODZONESColumnName = PPZ_PODZONESColumnName.PLOTNOST):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -927,7 +930,7 @@ def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column
 def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTColumnName.type_krt):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.KRT.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.KRT.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -953,7 +956,7 @@ def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTC
 def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: DistrictsColumnName = DistrictsColumnName.NAME):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.DISTRICTS.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.DISTRICTS.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -979,7 +982,7 @@ def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: District
 def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnName = RegionColumnName.NAME):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.region.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.region.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1005,7 +1008,7 @@ def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnNa
 def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnName = SurveyColumnName.KLASS):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.SURVEY.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.SURVEY.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1031,7 +1034,7 @@ def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnNa
 def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = OOZTColumnName.status):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.OOZT.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.OOZT.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1057,7 +1060,7 @@ def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = O
 def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: CadastralColumnName = CadastralColumnName.cadastra1):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.Cadastral.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.Cadastral.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1083,7 +1086,7 @@ def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: Cadastra
 def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.MKD.value}/{layer.value}")
+        gdf = read_shapefile_trans(f"{LayerFolder.MKD.value}/{layer.value}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
@@ -1097,10 +1100,26 @@ def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDC
 
     return geojson
 
-
+@lru_cache
 def read_shapefile(file, encode='cp1251'):
     with fiona.open(os.path.join(data_dir, file), encoding=encode) as src:
         gdf = gpd.GeoDataFrame.from_features(src, crs=src.crs)
+        return gdf
+    
+@lru_cache()
+def read_shapefile_trans(file, encode='cp1251'):
+    with fiona.open(os.path.join(data_dir, file), encoding=encode) as src:
+        # Get the source CRS and create a transformer to WGS-84
+        src_crs = src.crs
+        transformer = Proj(src_crs, projparams='+proj=tmerc +lat_0=55.66666666667 +lon_0=37.5 +k=1 +x_0=12 +y_0=14 +ellps=bessel +towgs84=316.151,78.924,589.65,-1.57273,2.69209,2.34693,8.4507 +units=m +no_defs')
+        target_crs = Proj(init='epsg:4326')  # WGS-84 CRS
+        
+        # Read the shapefile into a GeoDataFrame
+        gdf = gpd.GeoDataFrame.from_features(src, crs=src_crs)
+        
+        # Transform geometries to WGS-84
+        gdf['geometry'] = gdf['geometry'].apply(lambda geom: transform(transformer, target_crs, geom))
+        
         return gdf
 
 def remove_empty_and_zero_columns(gdf):
