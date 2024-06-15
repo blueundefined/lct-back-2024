@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from pyproj import Proj, transform
@@ -437,7 +438,11 @@ def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColum
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/OKS", 
@@ -464,7 +469,11 @@ def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSC
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/ZOUIT", 
@@ -491,7 +500,11 @@ def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName 
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/spritzones", 
@@ -518,7 +531,11 @@ def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: Spritz
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/YDC_ROADS", 
@@ -545,7 +562,11 @@ def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROAD
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/renovation_sites", 
@@ -572,7 +593,11 @@ def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, co
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/PPZ_ZONES", 
@@ -599,7 +624,11 @@ def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/PPZ_PODZONES", 
@@ -626,7 +655,11 @@ def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/KRT", 
@@ -653,7 +686,11 @@ def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTC
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/Districts", 
@@ -680,7 +717,11 @@ def visualize_districts(layer: LayerName = LayerName.DISTRICTS, column: District
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/Region",
@@ -707,7 +748,11 @@ def visualize_region(layer: LayerName = LayerName.REGION, column: RegionColumnNa
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/Survey", 
@@ -734,7 +779,11 @@ def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnNa
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/OOZT", 
@@ -761,7 +810,11 @@ def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = O
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/Cadastral", 
@@ -788,7 +841,11 @@ def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: Cadastra
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "geojson file saved"
 
 @router.get(
     "/visualize/MKD", 
@@ -815,7 +872,11 @@ def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDC
     
     geojson = gdf_to_geojson(gdf)
 
-    return geojson
+    # save geojson to file
+    with open(os.path.join(output_dir, f"{layer.value}.json"), 'w') as f:
+        json.dump(geojson.dict(), f)
+    #return geojson
+    return "Geojson file saved"
 
 @lru_cache
 def read_shapefile(file, encode='cp1251'):
