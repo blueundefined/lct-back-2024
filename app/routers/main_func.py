@@ -1256,7 +1256,7 @@ def get_columns() -> Dict[str, List[ColumnInfo]]:
         "ZOUITProperties": ZOUITPropertiesEnum,
         "SpritzonesProperties": SpritzonesPropertiesEnum,
         "YDC_ROADSProperties": YDC_ROADSPropertiesEnum,
-        "RenovationSitesProperties": RenovationSitesProperties,
+        "RenovationSitesProperties": RenovationSitesPropertiesEnum,
         "PPZ_ZONESProperties": PPZ_ZONESPropertiesEnum,
         "PPZ_PODZONESProperties": PPZ_PODZONESPropertiesEnum,
         "KRTProperties": KRTPropertiesEnum,
