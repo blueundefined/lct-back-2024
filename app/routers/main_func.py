@@ -50,13 +50,16 @@ if not os.path.exists(output_dir):
 class LayerName(str, Enum):
     rayon = "район.shp"
 
+class LayerFolder(str, Enum):
+    rayon = "_10_Округ, район"
+
 class ColumnName(str, Enum):
     name = "NAME"
 
 @router.get("/visualize/", response_model=FeatureCollection)
 def visualize(layer: LayerName = LayerName.rayon, column: ColumnName = ColumnName.name):
     try:
-        gdf = read_shapefile(layer.value)
+        gdf = read_shapefile(f'{LayerFolder.rayon.value}/{layer.value}')
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
     
