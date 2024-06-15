@@ -424,7 +424,7 @@ class MKDColumnName(str, Enum):
 def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColumnName.ownershi8):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.ZU.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.ZU.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -451,7 +451,7 @@ def visualize_zu(layer: LayerName = LayerName.ZU, column: ZUColumnName = ZUColum
 def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.OKS.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.OKS.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -478,7 +478,7 @@ def visualize_oks(layer: LayerName = LayerName.OKS, column: OKSColumnName = OKSC
 def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName = ZOUITColumnName.VID_ZOUIT):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.ZOUIT.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.ZOUIT.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -505,7 +505,7 @@ def visualize_zouit(layer: LayerName = LayerName.ZOUIT, column: ZOUITColumnName 
 def visualize_spritzones(layer: LayerName = LayerName.spritzones, column: SpritzonesColumnName = SpritzonesColumnName.LineCode):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.spritzones.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.spritzones.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -559,7 +559,7 @@ def visualize_ydc_roads(layer: LayerName = LayerName.YDC_ROADS, column: YDC_ROAD
 def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, column: RenovationSitesColumnName = RenovationSitesColumnName.vysota):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.renovation_sites.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.renovation_sites.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -586,7 +586,7 @@ def visualize_renovation_sites(layer: LayerName = LayerName.renovation_sites, co
 def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_ZONESColumnName = PPZ_ZONESColumnName.TYPE):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.PPZ_ZONES.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -613,7 +613,7 @@ def visualize_ppz_zones(layer: LayerName = LayerName.PPZ_ZONES_NEW, column: PPZ_
 def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column: PPZ_PODZONESColumnName = PPZ_PODZONESColumnName.PLOTNOST):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.PPZ_PODZONES.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -640,7 +640,7 @@ def visualize_ppz_podzones(layer: LayerName = LayerName.PPZ_PODZONES_NEW, column
 def visualize_krt(layer: LayerName = LayerName.KRT, column: KRTColumnName = KRTColumnName.type_krt):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.KRT.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.KRT.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -748,7 +748,7 @@ def visualize_survey(layer: LayerName = LayerName.SURVEY, column: SurveyColumnNa
 def visualize_oozt(layer: LayerName = LayerName.OOZT, column: OOZTColumnName = OOZTColumnName.status):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.OOZT.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.OOZT.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -802,7 +802,7 @@ def visualize_cadastral(layer: LayerName = LayerName.Cadastral, column: Cadastra
 def visualize_mkd(layer: LayerName = LayerName.MKD, column: MKDColumnName = MKDColumnName.hasbti):
     try:
         # layer folder + layer name
-        gdf = read_shapefile(f"{LayerFolder.MKD.value}/{layer.value}", encoding='UTF8')
+        gdf = read_shapefile(f"{LayerFolder.MKD.value}/{layer.value}", encode='UTF8')
         gdf = gdf.to_crs("EPSG:4326")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error reading the shapefile: {str(e)}")
@@ -895,7 +895,7 @@ def change_src_crs_to_wgs84(gdf):
 @lru_cache
 def load_shapefiles():
     # load all shapefiles into memory to speed up the visualization and avoid reading the files each time
-    # if ЗУ, ОКС, ЗОУИТ, СПРИТ, Реновация, ПЗЗ, КРТ, ООЗТ, МКД - encoding='UTF8'
+    # if ЗУ, ОКС, ЗОУИТ, СПРИТ, Реновация, ПЗЗ, КРТ, ООЗТ, МКД - encode='UTF8'
     for layer, folder in LayerFolder.__members__.items():
         for file in os.listdir(os.path.join(data_dir, folder.value)):
             if file.endswith('.shp'):
