@@ -5,3 +5,4 @@ from .vri import VRI
 from .schedule import Schedule
 from .cadastral_manual import CadastralManual
 from .shape import Shape
+from .chat import ChatMessage
