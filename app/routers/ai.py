@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, APIRouter
 from fastapi.responses import JSONResponse
+from sqlalchemy import select
 from starlette import status
 from pydantic import BaseModel
 import aiohttp
@@ -38,12 +39,11 @@ class DeleteRequest(BaseModel):
 class DeleteResponse(BaseModel):
     detail: str
 
-# Database Utility Functions
-def save_chat_message(source_id: str, role: str, content: str, session: AsyncSession = Depends(get_session)) -> ChatMessage:
+async def save_chat_message(source_id: str, role: str, content: str, session: AsyncSession = Depends(get_session)) -> ChatMessage:
     db_message = ChatMessage(source_id=source_id, role=role, content=content)
     session.add(db_message)
-    session.commit()
-    session.refresh(db_message)
+    await session.commit()
+    await session.refresh(db_message)
     return db_message
 
 @router.post("/ai/chat/upload_pdf", response_description="Успешная загрузка PDF-файла и получение его sourceId",
@@ -114,6 +114,7 @@ async def chat_with_pdf(request: ChatRequest, session: AsyncSession = Depends(ge
             status_code=status.HTTP_200_OK,
             description="Получить список сообщений по sourceId",
             summary="Получение списка сообщений")
-async def get_chat_messages(source_id: str, session: AsyncSession = Depends(get_session)):
-    messages = session.query(ChatMessage).filter(ChatMessage.source_id == source_id).order_by(ChatMessage.id).all()
+async def get_messages_by_source_id(source_id: str, session: AsyncSession = Depends(get_session)) -> list[ChatMessage]:
+    result = await session.execute(select(ChatMessage).filter(ChatMessage.source_id == source_id).order_by(ChatMessage.id))
+    messages = result.scalars().all()
     return messages
