@@ -1222,6 +1222,11 @@ class LayerColumnsResponse(BaseModel):
     layer: str
     columns: List[ColumnInfo]
 
+class ColumnInfo(BaseModel):
+    name: str
+    type: str
+    description: str
+
 @router.get(
     "/columns/",
     response_model=Dict[str, List[ColumnInfo]],
@@ -1230,7 +1235,7 @@ class LayerColumnsResponse(BaseModel):
     description="Список всех возможных колонок для каждого слоя",
     summary="Список всех возможных колонок для каждого слоя",
 )
-def get_columns(): 
+def get_columns():
     columns = {}
     layer_models = {
         "ZUProperties": ZUProperties,
@@ -1255,7 +1260,7 @@ def get_columns():
         "ZOUITProperties": ZOUITPropertiesEnum,
         "SpritzonesProperties": SpritzonesPropertiesEnum,
         "YDC_ROADSProperties": YDC_ROADSPropertiesEnum,
-        "RenovationSitesProperties": RenovationSitesPropertiesEnum,
+        "RenovationSitesProperties": RenovationSitesProperties,
         "PPZ_ZONESProperties": PPZ_ZONESPropertiesEnum,
         "PPZ_PODZONESProperties": PPZ_PODZONESPropertiesEnum,
         "KRTProperties": KRTPropertiesEnum,
@@ -1275,7 +1280,7 @@ def get_columns():
         for field_name, field in model.__fields__.items():
             column_info = ColumnInfo(
                 name=field_name,
-                type=str(field.type_),
+                type=str(field.outer_type_),
                 description=enum[field_name.upper()].value
             )
             columns[layer_name].append(column_info)
