@@ -41,8 +41,8 @@ class FeatureCollection(BaseModel):
     type: str = "FeatureCollection"
     features: List[Feature]
 
-data_dir = '/app/shapefiles'
-output_dir = '/app/geojson_files'
+data_dir = '/app/app/shapefiles'
+output_dir = '/app/app/geojson_files'
 
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
