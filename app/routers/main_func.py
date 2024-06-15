@@ -1170,6 +1170,7 @@ def gdf_to_geojson(gdf) -> FeatureCollection:
         features.append(feature)
     return FeatureCollection(features=features)
 
+@lru_cache
 def load_shapefiles():
     # load all shapefiles into memory to speed up the visualization and avoid reading the files each time
     # if ЗУ, ОКС, ЗОУИТ, СПРИТ, Реновация, ПЗЗ, КРТ, ООЗТ, МКД - encoding='UTF8'
@@ -1178,12 +1179,12 @@ def load_shapefiles():
             if file.endswith('.shp'):
                 if layer == LayerName.ZU or layer == LayerName.OKS or layer == LayerName.ZOUIT or layer == LayerName.spritzones or layer == LayerName.renovation_sites or layer == LayerName.PPZ_ZONES_NEW or layer == LayerName.PPZ_ZONES_OLD or layer == LayerName.PPZ_PODZONES_OLD or layer == LayerName.PPZ_PODZONES_NEW or layer == LayerName.KRT or layer == LayerName.OOZT or layer == LayerName.MKD:
                     try:
-                        gdf = read_shapefile_trans(f"{folder.value}/{file}", encode='UTF8')
+                        gdf = read_shapefile(f"{folder.value}/{file}", encode='UTF8')
                     except Exception as e:
                         print(f"Error reading the shapefile: {str(e)}")
                 else:
                     try:
-                        gdf = read_shapefile_trans(f"{folder.value}/{file}")
+                        gdf = read_shapefile(f"{folder.value}/{file}")
                     except Exception as e:
                         print(f"Error reading the shapefile: {str(e)}")
 
@@ -1193,4 +1194,4 @@ def load_shapefiles():
 
 
 # load all shapefiles into memory to speed up the visualization and avoid reading the files each time
-load_shapefiles()
+# load_shapefiles()
