@@ -84,12 +84,8 @@ class ShapeService:
         return await db.execute(text("SELECT * FROM true_shape WHERE added_to_favorites = TRUE LIMIT :limit OFFSET :offset"), {"limit": limit, "offset": offset})
     
     @staticmethod
-    async def add_to_favorite(db: AsyncSession, shape_id: int):
-        return await db.execute(text("UPDATE true_shape SET added_to_favorites = TRUE WHERE shape_id = :shape_id"), {"shape_id": shape_id})
-    
-    @staticmethod
-    async def remove_from_favorite(db: AsyncSession, shape_id: int):
-        return await db.execute(text("UPDATE true_shape SET added_to_favorites = FALSE WHERE shape_id = :shape_id"), {"shape_id": shape_id})
+    async def change_favorite_status(db: AsyncSession, shape_id: int, status: bool):
+        return await db.execute(text("UPDATE true_shape SET added_to_favorites = :status WHERE shape_id = :shape_id"), {"shape_id": shape_id, "status": status})
     
     @staticmethod
     async def get_favorite_status(db: AsyncSession, shape_id: int) -> bool:
@@ -129,17 +125,9 @@ async def add_shape_to_favorite(
     shape_id: int = Path(..., title="Уникальный идентификатор фигуры"),
     db: AsyncSession = Depends(get_session),
 ):
-    await ShapeService.add_to_favorite(db=db, shape_id=shape_id)
-    return status.HTTP_200_OK
-
-# route to remove shape from favorite
-@router.delete('/shapes/{shape_id}/favorite')
-async def remove_shape_from_favorite(
-    shape_id: int = Path(..., title="Уникальный идентификатор фигуры"),
-    db: AsyncSession = Depends(get_session),
-):
-    await ShapeService.remove_from_favorite(db=db, shape_id=shape_id)
-    return status.HTTP_200_OK
+    await ShapeService.change_favorite_status(db=db, shape_id=shape_id)
+    return {'fav_status': ShapeService.get_favorite_status(db=db, shape_id=shape_id)}
+            
 
 # route to get favorite status of shape
 @router.get('/shapes/{shape_id}/favorite', response_model=bool)
