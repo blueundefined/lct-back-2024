@@ -14,6 +14,7 @@ class TrueShape(Base):
     ai_gen_comment = Column(Text, default='')
 """
 
+from datetime import datetime
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, Path, Query
@@ -33,8 +34,8 @@ class ShapeBase(BaseModel):
     shape_version: int = Field(description="Версия фигуры")
     comment: Optional[str] = Field(None, description="Комментарий к фигуре")
     added_to_favorites: bool = Field(description="Добавлено в избранное")
-    created_at: str = Field(description="Дата создания фигуры")
-    updated_at: str = Field(description="Дата обновления фигуры")
+    created_at: datetime = Field(description="Дата создания фигуры")
+    updated_at: datetime = Field(description="Дата обновления фигуры")
     ai_gen_comment: Optional[str] = Field(None, description="Комментарий, сгенерированный ИИ")
 
     class Config:
