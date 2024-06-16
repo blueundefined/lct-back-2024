@@ -21,6 +21,7 @@ from app.routers.solution import router as solution_router
 from app.routers.main_func import router as main_func_router
 from app.routers.shape_func import router as shape_func_router
 from app.routers.reports import router as reports_router
+from app.routers.calc import router as calc_router
 
 tags_metadata = [
     {"name": "Авторизация", "description": "Авторизация"},
@@ -37,6 +38,7 @@ tags_metadata = [
     {"name": "Геообработка", "description": "Решение задач геообработки"},
     {"name": "Работа с контурами решения", "description": "Работа с контурами решения"},
     {"name": "Отчёты", "description": "Работа с отчётами"},
+    {"name": "Расчёт аренды", "description": "Решение задачи расчёта аренды"},
     ]
 
 app = FastAPI(
@@ -194,6 +196,7 @@ app.include_router(solution_router, tags=["Расчёт участков"])
 app.include_router(main_func_router, tags=["Геообработка"])
 app.include_router(shape_func_router, tags=["Работа с контурами решения"])
 app.include_router(reports_router, tags=["Отчёты"])
+app.include_router(calc_router, tags=["Расчёт аренды"])
 
 
 print("app.main.py: app created.")

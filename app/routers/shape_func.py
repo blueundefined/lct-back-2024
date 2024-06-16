@@ -19,12 +19,13 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Depends, Path, Query
 from pydantic import UUID4, BaseModel, EmailStr, Field
-from sqlalchemy import text
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from app.config import config
 from app.database.connection import get_session
+from app.database.tables.shape_proccess import TrueShape
 from app.models.utils import optional
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
@@ -91,8 +92,10 @@ class ShapeService:
         return await db.execute(text("UPDATE true_shape SET added_to_favorites = FALSE WHERE shape_id = :shape_id"), {"shape_id": shape_id})
     
     @staticmethod
-    async def get_favorite_status(db: AsyncSession, shape_id: int):
-        return await db.execute(text("SELECT added_to_favorites FROM true_shape WHERE shape_id = :shape_id"), {"shape_id": shape_id})
+    async def get_favorite_status(db: AsyncSession, shape_id: int) -> bool:
+        result = await db.execute(select(TrueShape.added_to_favorites).where(TrueShape.shape_id == shape_id))
+        favorite_status = result.scalar()
+        return favorite_status is True
     
     @staticmethod
     async def add_ai_gen_comment(db: AsyncSession, shape_id: int, ai_gen_comment: str):
