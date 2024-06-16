@@ -19,6 +19,8 @@ from app.routers.manuals import router as manuals_router
 from app.routers.ai import router as ai_router
 from app.routers.solution import router as solution_router
 from app.routers.main_func import router as main_func_router
+from app.routers.shape_func import router as shape_func_router
+from app.routers.reports import router as reports_router
 
 tags_metadata = [
     {"name": "Авторизация", "description": "Авторизация"},
@@ -32,7 +34,9 @@ tags_metadata = [
     {"name": "Справочники", "description": "Работа со справочниками"},
     {"name": "Нейросети", "description": "Работа с нейросетевыми решениями"},
     {"name": "Расчёт участков", "description": "Решение задачи расчёта участков"},
-    {"name": "Геообработка", "description": "Решение задач геообработки"}
+    {"name": "Геообработка", "description": "Решение задач геообработки"},
+    {"name": "Работа с контурами решения", "description": "Работа с контурами решения"},
+    {"name": "Отчёты", "description": "Работа с отчётами"},
     ]
 
 app = FastAPI(
@@ -188,6 +192,8 @@ app.include_router(manuals_router, tags=["Справочники"])
 app.include_router(ai_router, tags=["Нейросети"])
 app.include_router(solution_router, tags=["Расчёт участков"])
 app.include_router(main_func_router, tags=["Геообработка"])
+app.include_router(shape_func_router, tags=["Работа с контурами решения"])
+app.include_router(reports_router, tags=["Отчёты"])
 
 
 print("app.main.py: app created.")

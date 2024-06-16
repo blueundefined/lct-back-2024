@@ -6,3 +6,4 @@ from .schedule import Schedule
 from .cadastral_manual import CadastralManual
 from .shape import Shape
 from .chat import ChatMessage
+from .shape_proccess import TrueShape
