@@ -13,12 +13,13 @@ from app.config import config
 from app.database import get_session
 from .shape_func import ShapeService, ShapeGet
 
+import os
+from tempfile import NamedTemporaryFile
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
 
 # Assuming you have imported ShapeService and other necessary modules as in your original code
-
-def generate_docx_for_favorite_shapes(shapes: List[ShapeGet]) -> bytes:
+def generate_docx_for_favorite_shapes(shapes: List[ShapeGet], filename) -> str:
     doc = Document()
 
     # Adding a title
@@ -35,37 +36,31 @@ def generate_docx_for_favorite_shapes(shapes: List[ShapeGet]) -> bytes:
 
         doc.add_page_break()
 
-    # Save the document to a temporary file-like object
-    tmp_file = tempfile.NamedTemporaryFile(delete=False)
+    # Save the document to a temporary file
+    tmp_file = NamedTemporaryFile(delete=False, suffix=".docx")
+    tmp_file.close()  # Close to allow writing
+
     doc.save(tmp_file.name)
 
-    # Read the saved document and return its content
-    with open(tmp_file.name, 'rb') as f:
-        doc_bytes = f.read()
+    return tmp_file.name  # Return the path to the generated file
 
-    # Clean up the temporary file
-    tmp_file.close()
-
-    return doc_bytes
-
-# Define a new route to generate and download the DOCX file for favorite shapes
 @router.get('/shapes/favorite/docx')
 async def download_favorite_shapes_docx(
     db: AsyncSession = Depends(get_session),
     limit: int = Query(100, ge=1, le=1000),
     offset: int = Query(0, ge=0),
 ):
-    # Retrieve favorite shapes from the database
+    # Retrieve favorite shapes from the database using ShapeService
     favorite_shapes = await ShapeService.get_all_favorite(db=db, limit=limit, offset=offset)
 
-     # Transform result to ShapeGet models
+    # Transform result to ShapeGet models
     favorite_shapes = [ShapeGet(shape_id=row.shape_id, shape_version=row.shape_version,
                                comment=row.comment, added_to_favorites=row.added_to_favorites,
                                created_at=str(row.created_at), updated_at=str(row.updated_at),
                                ai_gen_comment=row.ai_gen_comment) for row in favorite_shapes]
 
-    # Generate DOCX file content
-    docx_content = generate_docx_for_favorite_shapes(favorite_shapes)
+    # Generate DOCX file content and get the file path
+    docx_file_path = generate_docx_for_favorite_shapes(favorite_shapes)
 
     # Return the generated DOCX file as a response.
     return FileResponse(BytesIO(docx_content), filename=f'отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx', media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
