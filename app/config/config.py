@@ -34,6 +34,10 @@ class Config(BaseSettings):
     BACKEND_DISABLE_FILE_SENDING: bool
     BACKEND_DISABLE_REGISTRATION: bool
 
+    # AI
+    CHAT_PDF_API_KEY: str
+    GIGA_CREDS: str
+
     # Postgres
     POSTGRES_SERVER: str
     POSTGRES_USER: str

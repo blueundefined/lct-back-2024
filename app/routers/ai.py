@@ -13,7 +13,7 @@ from sqlalchemy.sql import text
 
 from app.routers.shape_func import ShapeGet, ShapeService
 
-API_KEY = 'sec_AIPPRiqPmLPTsC6AobETncNoTlbHg4OA'
+API_KEY = config.CHAT_PDF_API_KEY
 UPLOAD_URL = 'https://api.chatpdf.com/v1/sources/add-file'
 CHAT_URL = 'https://api.chatpdf.com/v1/chats/message'
 DELETE_URL = 'https://api.chatpdf.com/v1/sources/delete'

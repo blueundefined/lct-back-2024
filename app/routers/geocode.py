@@ -9,8 +9,8 @@ from app.models.geocode import GeocodeRequest, GeocoderCustomResponse, Geosugges
 
 router = APIRouter(prefix=config.BACKEND_PREFIX)
 
-GEOCODER_API_KEY = "879d5ea4-0b90-4c83-bb59-c6adeb9e2978"
-GEOSUGGEST_API_KEY = "fe995c75-eb7d-4489-8593-95491e671a8e"
+GEOCODER_API_KEY = config.GEOCODER_API_KEY
+GEOSUGGEST_API_KEY = config.GEOSUGGEST_API_KEY
 
 @router.post("/geocoder", response_model=GeocoderCustomResponse)
 async def geocoder(geocode_request: GeocodeRequest):
