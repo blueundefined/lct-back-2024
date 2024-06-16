@@ -41,7 +41,7 @@ tags_metadata = [
 
 app = FastAPI(
     docs_url=None,
-    redoc_url="/redoc",
+    redoc_url=f"{config.BACKEND_PREFIX}/redoc",
     debug=config.DEBUG,
     openapi_tags=tags_metadata,
     openapi_url=f"{config.BACKEND_PREFIX}/openapi.json",
