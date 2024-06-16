@@ -134,7 +134,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain.chat_models.gigachat import GigaChat
 
 # Initialize GigaChat instance
-giga = GigaChat(credentials='ODA1Y2Q0NWUtNmNhYi00OWRkLWJhNTYtN2JmNDk3YWJjOWVmOmM3ZWRlZDEzLTk4NTgtNDI4YS1iMzdlLWViODM3NGQwODJlNg==', model='GigaChat', verify_ssl_certs=False)
+giga = GigaChat(credentials='ODA1Y2Q0NWUtNmNhYi00OWRkLWJhNTYtN2JmNDk3YWJjOWVmOmM3ZWRlZDEzLTk4NTgtNDI4YS1iMzdlLWViODM3NGQwODJlNg==', model='GigaChat', verify_ssl_certs=False, scope="GIGACHAT_API_PERS")
 
 router = APIRouter()
 
@@ -145,7 +145,7 @@ class MessageRequest(BaseModel):
 class MessageResponse(BaseModel):
     response: str
 
-@router.post("/chat_with_gigachat", response_model=MessageResponse)
+@router.post("/ai/chat_with_gigachat", response_model=MessageResponse)
 async def chat_with_gigachat(message: MessageRequest):
     response_content = await chat_with_gigachat_promt(message.content)
     return {"response": response_content}
@@ -161,7 +161,7 @@ async def chat_with_gigachat_promt(message: str) -> str:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/generate_ai_review", response_model=MessageResponse)
+@router.get("/ai/generate_ai_review", response_model=MessageResponse)
 async def generate_ai_review(
     shape_id: int = Path(..., title="Уникальный идентификатор фигуры"),
     db: AsyncSession = Depends(get_session),
