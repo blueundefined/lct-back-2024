@@ -4,7 +4,7 @@ from docx.shared import Inches
 from io import BytesIO
 import tempfile
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List
 from datetime import datetime
@@ -53,6 +53,11 @@ async def download_favorite_shapes_docx(
     # Retrieve favorite shapes from the database using ShapeService
     favorite_shapes = await ShapeService.get_all_favorite(db=db, limit=limit, offset=offset)
 
+    # если нет избранных контуров - вернуть ошибку 404
+    if not favorite_shapes:
+        raise HTTPException(status_code=404, detail="Нет избранных контуров")
+    
+
     # Transform result to ShapeGet models
     favorite_shapes = [ShapeGet(shape_id=row.shape_id, shape_version=row.shape_version,
                                comment=row.comment, added_to_favorites=row.added_to_favorites,
@@ -66,5 +71,7 @@ async def download_favorite_shapes_docx(
     # Return the generated DOCX file as a response.
     #return FileResponse(docx_file_path, filename=f'отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx', media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
 
-    # Save file localy and give link to get it
-    return {"file_path": docx_file_path, "filename": f'отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx'}
+    # Save file localy and give link to get 
+    os.rename(docx_file_path, f'app\docs\отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx')
+
+    return {"file_path": os.path.abspath(docx_file_path), "filename": f'отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx'}
