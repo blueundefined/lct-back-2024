@@ -62,5 +62,9 @@ async def download_favorite_shapes_docx(
     # Generate DOCX file content and get the file path
     docx_file_path = generate_docx_for_favorite_shapes(favorite_shapes, filename="favorite_shapes")
 
+
     # Return the generated DOCX file as a response.
-    return FileResponse(docx_file_path, filename=f'отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx', media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    #return FileResponse(docx_file_path, filename=f'отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx', media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+
+    # Save file localy and give link to get it
+    return {"file_path": docx_file_path, "filename": f'отчёт_по_избранным_контурам_от_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.docx'}
