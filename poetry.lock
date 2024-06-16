@@ -919,6 +919,21 @@ pyproj = ">=3.3.0"
 shapely = ">=1.8.0"
 
 [[package]]
+name = "gigachat"
+version = "0.1.29"
+description = "GigaChat. Python-library for GigaChain and LangChain"
+optional = false
+python-versions = "<4.0,>=3.8"
+files = [
+    {file = "gigachat-0.1.29-py3-none-any.whl", hash = "sha256:0d12c6b1e056cf5b4f663cdcf6925d99e78d7933a3146b7476360319c9f9a1bb"},
+    {file = "gigachat-0.1.29.tar.gz", hash = "sha256:8cb267d28bbae9c941354f11f1d2430e7723b5999b569e5d0c9f43f0077dd561"},
+]
+
+[package.dependencies]
+httpx = "<1"
+pydantic = ">=1"
+
+[[package]]
 name = "greenlet"
 version = "3.0.3"
 description = "Lightweight in-process concurrent programming"
@@ -3372,4 +3387,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "3579ab83f4f967d1064bf7207a4b9d8f833da93a98e9572c07cb8541d2bc7a51"
+content-hash = "fe8f19579909173e4a2b5dd0770abff6ef5df8e012902e64e3821a3acaef86ef"

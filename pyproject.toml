@@ -31,6 +31,7 @@ geoalchemy2 = "^0.15.1"
 python-docx = "^1.1.2"
 langchain = "^0.2.5"
 langchain-community = "^0.2.5"
+gigachat = "^0.1.29"
 
 
 [build-system]
