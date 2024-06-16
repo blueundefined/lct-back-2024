@@ -14,7 +14,7 @@ from app.models import ShapeGet, ShapeCreate, ShapePatch
 from app.database.connection import get_session
 from shapely.geometry import Point, Polygon, LineString, MultiPoint, MultiPolygon, MultiLineString
 
-router = APIRouter(prefix=config.BACKEND_PREFIX)
+router = APIRouter(prefix=f'{config.BACKEND_PREFIX}/solution')
 
 
 output_dir = "app/processed_data"

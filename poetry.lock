@@ -1144,6 +1144,31 @@ MarkupSafe = ">=2.0"
 i18n = ["Babel (>=2.7)"]
 
 [[package]]
+name = "jsonpatch"
+version = "1.33"
+description = "Apply JSON-Patches (RFC 6902)"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*"
+files = [
+    {file = "jsonpatch-1.33-py2.py3-none-any.whl", hash = "sha256:0ae28c0cd062bbd8b8ecc26d7d164fbbea9652a1a3693f3b956c1eae5145dade"},
+    {file = "jsonpatch-1.33.tar.gz", hash = "sha256:9fcd4009c41e6d12348b4a0ff2563ba56a2923a7dfee731d004e212e1ee5030c"},
+]
+
+[package.dependencies]
+jsonpointer = ">=1.9"
+
+[[package]]
+name = "jsonpointer"
+version = "3.0.0"
+description = "Identify specific nodes in a JSON document (RFC 6901)"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "jsonpointer-3.0.0-py2.py3-none-any.whl", hash = "sha256:13e088adc14fca8b6aa8177c044e12701e6ad4b28ff10e65f2267a90109c9942"},
+    {file = "jsonpointer-3.0.0.tar.gz", hash = "sha256:2b2d729f2091522d61c3b31f82e11870f60b68f43fbc705cb76bf4b832af59ef"},
+]
+
+[[package]]
 name = "kiwisolver"
 version = "1.4.5"
 description = "A fast implementation of the Cassowary constraint solver"
@@ -1255,6 +1280,85 @@ files = [
     {file = "kiwisolver-1.4.5-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:11d011a7574eb3b82bcc9c1a1d35c1d7075677fdd15de527d91b46bd35e935ee"},
     {file = "kiwisolver-1.4.5.tar.gz", hash = "sha256:e57e563a57fb22a142da34f38acc2fc1a5c864bc29ca1517a88abc963e60d6ec"},
 ]
+
+[[package]]
+name = "langchain"
+version = "0.2.5"
+description = "Building applications with LLMs through composability"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "langchain-0.2.5-py3-none-any.whl", hash = "sha256:9aded9a65348254e1c93dcdaacffe4d1b6a5e7f74ef80c160c88ff78ad299228"},
+    {file = "langchain-0.2.5.tar.gz", hash = "sha256:ffdbf4fcea46a10d461bcbda2402220fcfd72a0c70e9f4161ae0510067b9b3bd"},
+]
+
+[package.dependencies]
+aiohttp = ">=3.8.3,<4.0.0"
+async-timeout = {version = ">=4.0.0,<5.0.0", markers = "python_version < \"3.11\""}
+langchain-core = ">=0.2.7,<0.3.0"
+langchain-text-splitters = ">=0.2.0,<0.3.0"
+langsmith = ">=0.1.17,<0.2.0"
+numpy = [
+    {version = ">=1,<2", markers = "python_version < \"3.12\""},
+    {version = ">=1.26.0,<2.0.0", markers = "python_version >= \"3.12\""},
+]
+pydantic = ">=1,<3"
+PyYAML = ">=5.3"
+requests = ">=2,<3"
+SQLAlchemy = ">=1.4,<3"
+tenacity = ">=8.1.0,<9.0.0"
+
+[[package]]
+name = "langchain-core"
+version = "0.2.7"
+description = "Building applications with LLMs through composability"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "langchain_core-0.2.7-py3-none-any.whl", hash = "sha256:fd02e153c898486dd728d634684ffc64bc257ff2ba443dc7e53d017ac0bf4658"},
+    {file = "langchain_core-0.2.7.tar.gz", hash = "sha256:b0b1b6dfbdedb39426fcb8bd3f07e40eec7964856e3fc384c420ca6dba61b34e"},
+]
+
+[package.dependencies]
+jsonpatch = ">=1.33,<2.0"
+langsmith = ">=0.1.75,<0.2.0"
+packaging = ">=23.2,<25"
+pydantic = ">=1,<3"
+PyYAML = ">=5.3"
+tenacity = ">=8.1.0,<9.0.0"
+
+[[package]]
+name = "langchain-text-splitters"
+version = "0.2.1"
+description = "LangChain text splitting utilities"
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "langchain_text_splitters-0.2.1-py3-none-any.whl", hash = "sha256:c2774a85f17189eaca50339629d2316d13130d4a8d9f1a1a96f3a03670c4a138"},
+    {file = "langchain_text_splitters-0.2.1.tar.gz", hash = "sha256:06853d17d7241ecf5c97c7b6ef01f600f9b0fb953dd997838142a527a4f32ea4"},
+]
+
+[package.dependencies]
+langchain-core = ">=0.2.0,<0.3.0"
+
+[package.extras]
+extended-testing = ["beautifulsoup4 (>=4.12.3,<5.0.0)", "lxml (>=4.9.3,<6.0)"]
+
+[[package]]
+name = "langsmith"
+version = "0.1.77"
+description = "Client library to connect to the LangSmith LLM Tracing and Evaluation Platform."
+optional = false
+python-versions = "<4.0,>=3.8.1"
+files = [
+    {file = "langsmith-0.1.77-py3-none-any.whl", hash = "sha256:2202cc21b1ed7e7b9e5d2af2694be28898afa048c09fdf09f620cbd9301755ae"},
+    {file = "langsmith-0.1.77.tar.gz", hash = "sha256:4ace09077a9a4e412afeb4b517ca68e7de7b07f36e4792dc8236ac5207c0c0c7"},
+]
+
+[package.dependencies]
+orjson = ">=3.9.14,<4.0.0"
+pydantic = ">=1,<3"
+requests = ">=2,<3"
 
 [[package]]
 name = "loguru"
@@ -2663,6 +2767,21 @@ typing-extensions = {version = ">=3.10.0", markers = "python_version < \"3.10\""
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7)", "pyyaml"]
 
 [[package]]
+name = "tenacity"
+version = "8.3.0"
+description = "Retry code until it succeeds"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "tenacity-8.3.0-py3-none-any.whl", hash = "sha256:3649f6443dbc0d9b01b9d8020a9c4ec7a1ff5f6f3c6c8a036ef371f573fe9185"},
+    {file = "tenacity-8.3.0.tar.gz", hash = "sha256:953d4e6ad24357bceffbc9707bc74349aca9d245f68eb65419cf0c249a1949a2"},
+]
+
+[package.extras]
+doc = ["reno", "sphinx"]
+test = ["pytest", "tornado (>=4.5)", "typeguard"]
+
+[[package]]
 name = "typer"
 version = "0.12.3"
 description = "Typer, build great CLIs. Easy to code. Based on Python type hints."
@@ -3193,4 +3312,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "39b5833d8a4917d2f36eae46be76c5506ef9e5d55503c66cc047befc872b7385"
+content-hash = "99084b19c7ffccd77426e87e78d78cfa31eedd28cb3830e5f24648e4fb99b4e7"

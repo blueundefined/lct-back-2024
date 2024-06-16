@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, APIRouter
+from fastapi import FastAPI, File, Path, UploadFile, HTTPException, Depends, APIRouter
 from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -10,6 +10,8 @@ from typing import List
 from app.database import get_session
 from app.config import config
 from sqlalchemy.sql import text
+
+from app.routers.shape_func import ShapeGet, ShapeService
 
 API_KEY = 'sec_AIPPRiqPmLPTsC6AobETncNoTlbHg4OA'
 UPLOAD_URL = 'https://api.chatpdf.com/v1/sources/add-file'
@@ -122,3 +124,60 @@ async def chat_with_pdf(request: ChatRequest, session: AsyncSession = Depends(ge
 async def get_messages_route(sourceId: str = 'cha_uAPqOGzFSqbrUuCebnq8i', session: AsyncSession = Depends(get_session)):
     messages = await get_messages(session, sourceId)
     return messages
+
+
+from langchain.schema import HumanMessage, SystemMessage
+from langchain.chat_models.gigachat import GigaChat
+
+# Initialize GigaChat instance
+giga = GigaChat(credentials='ODA1Y2Q0NWUtNmNhYi00OWRkLWJhNTYtN2JmNDk3YWJjOWVmOmM3ZWRlZDEzLTk4NTgtNDI4YS1iMzdlLWViODM3NGQwODJlNg==>', model='GigaChat', verify_ssl_certs=False)
+
+# Define request body model
+class MessageRequest(BaseModel):
+    content: str
+
+@router.post("/chat_with_gigachat", response_model=MessageRequest)
+async def chat_with_gigachat(message: MessageRequest):
+    return chat_with_gigachat_promt(message.content)
+
+    
+
+async def chat_with_gigachat_promt(message: str):
+    try:
+        # Prepare message for GigaChat
+        human_message = HumanMessage(content=message)
+        response = giga([human_message])
+
+        # Return the assistant's response
+        return response.content
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@router.get("/generate_ai_review", response_model=MessageRequest)
+async def generate_ai_review( # generates comment for shape by its id and saves it to the database
+    shape_id: int = Path(..., title="Уникальный идентификатор фигуры"),
+    db: AsyncSession = Depends(get_session),
+):
+    shape = await ShapeService.get(db=db, shape_id=shape_id)
+    if not shape:
+        raise HTTPException(status_code=404, detail="Фигура не найдена")
+    
+    # Generate AI review for the shape
+    ai_review = generate_ai_review_for_shape(shape.to_dict())
+    
+    # Save the AI review to the database
+    await ShapeService.add_ai_gen_comment(db=db, shape_id=shape_id, ai_gen_comment=ai_review)
+    
+    return JSONResponse(content={"content": ai_review})
+
+async def generate_ai_review_for_shape(shape: dict) -> str:
+    
+    base_promt = f"Напишите заключение по фигуре с ID {shape.id}"
+
+    ai_review = await chat_with_gigachat_promt(base_promt)
+    
+    return ai_review
+
+# Additional routes and functionalities can be added as needed
+
