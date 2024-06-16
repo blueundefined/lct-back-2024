@@ -169,15 +169,15 @@ async def generate_ai_review(
         raise HTTPException(status_code=404, detail="Фигура не найдена")
     
     # Generate AI review for the shape
-    ai_review = await generate_ai_review_for_shape(shape.to_dict())
+    ai_review = await generate_ai_review_for_shape(shape)
     
     # Save the AI review to the database
     await ShapeService.add_ai_gen_comment(db=db, shape_id=shape_id, ai_gen_comment=ai_review)
     
     return {"response": ai_review}
 
-async def generate_ai_review_for_shape(shape: dict) -> str:
-    base_prompt = f"Напишите заключение по фигуре с ID {shape['id']}"
+async def generate_ai_review_for_shape(shape: ShapeGet) -> str:
+    base_prompt = f"Напишите заключение по фигуре с ID {shape.shape_id}"
     ai_review = await chat_with_gigachat_promt(base_prompt)
     return ai_review
 
