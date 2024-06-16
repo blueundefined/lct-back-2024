@@ -58,8 +58,11 @@ async def download_favorite_shapes_docx(
     # Retrieve favorite shapes from the database
     favorite_shapes = await ShapeService.get_all_favorite(db=db, limit=limit, offset=offset)
 
-    # Transform result to ShapeGet models
-    favorite_shapes = [ShapeGet(**dict(row.items())) for row in favorite_shapes]
+     # Transform result to ShapeGet models
+    favorite_shapes = [ShapeGet(shape_id=row.shape_id, shape_version=row.shape_version,
+                               comment=row.comment, added_to_favorites=row.added_to_favorites,
+                               created_at=str(row.created_at), updated_at=str(row.updated_at),
+                               ai_gen_comment=row.ai_gen_comment) for row in favorite_shapes]
 
     # Generate DOCX file content
     docx_content = generate_docx_for_favorite_shapes(favorite_shapes)
