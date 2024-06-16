@@ -159,7 +159,7 @@ async def chat_with_gigachat_promt(message: str) -> str:
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/ai/generate_ai_review", response_model=MessageResponse)
+@router.get("/ai/generate_ai_review/{shape_id}", response_model=MessageResponse)
 async def generate_ai_review(
     shape_id: int = Path(..., title="Уникальный идентификатор фигуры"),
     db: AsyncSession = Depends(get_session),
