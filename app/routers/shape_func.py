@@ -56,11 +56,14 @@ class ShapeGet(ShapeBase):
 class ShapeService:
     @staticmethod
     async def get(db: AsyncSession, shape_id: int):
-        return await db.execute(text("SELECT * FROM true_shape WHERE shape_id = :shape_id"), {"shape_id": shape_id})
+        response = await db.execute(text("SELECT * FROM true_shape WHERE shape_id = :shape_id"), {"shape_id": shape_id})
+        return ShapeGet.model_validate(response.first())
 
     @staticmethod
     async def get_all(db: AsyncSession, limit: int, offset: int):
-        return await db.execute(text("SELECT * FROM true_shape LIMIT :limit OFFSET :offset"), {"limit": limit, "offset": offset})
+        response = await db.execute(text("SELECT * FROM true_shape LIMIT :limit OFFSET :offset"), {"limit": limit, "offset": offset})
+        return [ShapeGet.model_validate(row) for row in response.fetchall()]
+    
 
     @staticmethod
     async def create(db: AsyncSession, shape: ShapeCreate):
