@@ -136,8 +136,6 @@ from langchain.chat_models.gigachat import GigaChat
 # Initialize GigaChat instance
 giga = GigaChat(credentials='ODA1Y2Q0NWUtNmNhYi00OWRkLWJhNTYtN2JmNDk3YWJjOWVmOmM3ZWRlZDEzLTk4NTgtNDI4YS1iMzdlLWViODM3NGQwODJlNg==', model='GigaChat', verify_ssl_certs=False, scope="GIGACHAT_API_PERS")
 
-router = APIRouter()
-
 # Define request and response models
 class MessageRequest(BaseModel):
     content: str
