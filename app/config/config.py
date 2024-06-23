@@ -37,7 +37,9 @@ class Config(BaseSettings):
     # AI
     CHAT_PDF_API_KEY: str
     GIGA_CREDS: str
-
+    GEOSUGGEST_API_KEY: str
+    GEOCODER_API_KEY: str
+    
     # Postgres
     POSTGRES_SERVER: str
     POSTGRES_USER: str
